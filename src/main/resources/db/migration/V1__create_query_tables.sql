@@ -1,5 +1,4 @@
-DROP TABLE IF EXISTS `code_of_account`;
-CREATE TABLE `code_of_account` (
+CREATE TABLE IF NOT EXISTS `code_of_account` (
   `code` int NOT NULL,
   `level` int NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -9,8 +8,7 @@ CREATE TABLE `code_of_account` (
   UNIQUE KEY `UKja91koyfnd79e9mrkvnlolfxw` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `entries`;
-CREATE TABLE `entries` (
+CREATE TABLE IF NOT EXISTS `entries` (
   `amount` double NOT NULL,
   `coa` int NOT NULL,
   `type` tinyint NOT NULL,
@@ -22,8 +20,7 @@ CREATE TABLE `entries` (
   CONSTRAINT `entries_chk_1` CHECK ((`type` between 0 and 1))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `transactions`;
-CREATE TABLE `transactions` (
+CREATE TABLE  IF NOT EXISTS `transactions` (
   `date` date NOT NULL,
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
