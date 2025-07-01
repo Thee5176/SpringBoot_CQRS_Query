@@ -28,3 +28,6 @@ CREATE TABLE  IF NOT EXISTS `transactions` (
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `entries` ADD FOREIGN KEY (`coa`) REFERENCES `code_of_account` (`code`);
+ALTER TABLE `entries` ADD FOREIGN KEY (`transaction_id`) REFERENCES `transactions` (`id`);
