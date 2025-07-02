@@ -25,26 +25,36 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "entries")
-@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class Entries {
+//TODO:Create Swagger Docs
+    // POST
+    // {
+    //     "transactionId": "4c7789de-c491-4bc5-9a77-2ae716147300",
+    //     "coa": 5210,
+    //     "amount": 0.1,
+    //     "type": "Debit",
+    //     "createdAt": "2025-07-02T03:50:57.835Z",
+    //     "updatedAt": "2025-07-02T03:50:57.835Z"
+    //   }
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Column(name = "transaction_id",nullable = false, unique = false)
+    @Column(name = "transaction_id", nullable = false, unique = false)
     private UUID transactionId;
-    @Column(name = "coa",nullable = false, unique = false)
+    @Column(name = "coa", nullable = false, unique = false)
     private Integer coa;
-    @Column(name = "amount",nullable = false, unique = false)
+    @Column(name = "amount", nullable = false, unique = false)
     private Double amount;
-    @Column(name = "type",nullable = false, unique = false)
+    @Column(name = "type", nullable = false, unique = false)
     private BalanceType type;
-    @Column(name = "created_at",nullable = false, unique = false)
+    @Column(name = "created_at", nullable = false, unique = false)
     private LocalDateTime createdAt;
-    @Column(name = "updated_at",nullable = false, unique = false)
+    @Column(name = "updated_at", nullable = false, unique = false)
     private LocalDateTime updatedAt;
 
-    public Entries() {}
+    public Entries() {
+    }
 
     public Entries(Entries value) {
         this.id = value.id;
@@ -57,14 +67,13 @@ public class Entries {
     }
 
     public Entries(
-        UUID id,
-        UUID transactionId,
-        Integer coa,
-        Double amount,
-        BalanceType type,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
-    ) {
+            UUID id,
+            UUID transactionId,
+            Integer coa,
+            Double amount,
+            BalanceType type,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt) {
         this.id = id;
         this.transactionId = transactionId;
         this.coa = coa;
@@ -191,44 +200,37 @@ public class Entries {
         if (this.id == null) {
             if (other.id != null)
                 return false;
-        }
-        else if (!this.id.equals(other.id))
+        } else if (!this.id.equals(other.id))
             return false;
         if (this.transactionId == null) {
             if (other.transactionId != null)
                 return false;
-        }
-        else if (!this.transactionId.equals(other.transactionId))
+        } else if (!this.transactionId.equals(other.transactionId))
             return false;
         if (this.coa == null) {
             if (other.coa != null)
                 return false;
-        }
-        else if (!this.coa.equals(other.coa))
+        } else if (!this.coa.equals(other.coa))
             return false;
         if (this.amount == null) {
             if (other.amount != null)
                 return false;
-        }
-        else if (!this.amount.equals(other.amount))
+        } else if (!this.amount.equals(other.amount))
             return false;
         if (this.type == null) {
             if (other.type != null)
                 return false;
-        }
-        else if (!this.type.equals(other.type))
+        } else if (!this.type.equals(other.type))
             return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
                 return false;
-        }
-        else if (!this.createdAt.equals(other.createdAt))
+        } else if (!this.createdAt.equals(other.createdAt))
             return false;
         if (this.updatedAt == null) {
             if (other.updatedAt != null)
                 return false;
-        }
-        else if (!this.updatedAt.equals(other.updatedAt))
+        } else if (!this.updatedAt.equals(other.updatedAt))
             return false;
         return true;
     }
