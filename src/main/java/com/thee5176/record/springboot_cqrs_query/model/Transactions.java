@@ -22,7 +22,14 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "transactions")
 public class Transactions {
-
+//TODO : Create Swagger Docs
+    // POST
+    // {
+    //   "date": "2025-07-02",
+    //   "description": "string",
+    //   "createdAt": "2025-07-02T03:48:54.880Z",
+    //   "updatedAt": "2025-07-02T03:48:54.880Z"
+    // }
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
