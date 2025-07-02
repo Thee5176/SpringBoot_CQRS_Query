@@ -23,7 +23,6 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "code_of_account")
-@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class CodeOfAccount {
 
     @Id

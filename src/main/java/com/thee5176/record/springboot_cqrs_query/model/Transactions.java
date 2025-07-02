@@ -21,7 +21,6 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "transactions")
-@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class Transactions {
 
     @Id

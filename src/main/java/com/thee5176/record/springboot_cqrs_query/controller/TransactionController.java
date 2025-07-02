@@ -38,7 +38,7 @@ public class TransactionController {
     @PutMapping
     public ResponseEntity<String> putMethodName(@RequestParam UUID uuid, @RequestBody Transactions transaction) {
         transaction.setId(uuid);
-        transactionRepository.save(transaction);
+        transactionRepository.saveAndFlush(transaction);
         
         return ResponseEntity.ok("Transaction updated succesfully");
     }
