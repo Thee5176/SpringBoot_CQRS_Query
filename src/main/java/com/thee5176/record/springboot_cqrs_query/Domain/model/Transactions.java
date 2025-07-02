@@ -1,4 +1,4 @@
-package com.thee5176.record.springboot_cqrs_query.model;
+package com.thee5176.record.springboot_cqrs_query.Domain.model;
 
 
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package com.thee5176.record.springboot_cqrs_query.model.enums;
+package com.thee5176.record.springboot_cqrs_query.Domain.model.enums;
 
 @SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public enum BalanceType {

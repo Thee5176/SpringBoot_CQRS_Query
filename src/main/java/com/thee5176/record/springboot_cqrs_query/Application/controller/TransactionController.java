@@ -1,4 +1,4 @@
-package com.thee5176.record.springboot_cqrs_query.controller;
+package com.thee5176.record.springboot_cqrs_query.Application.controller;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.thee5176.record.springboot_cqrs_query.model.Transactions;
-import com.thee5176.record.springboot_cqrs_query.repository.TransactionRepository;
+import com.thee5176.record.springboot_cqrs_query.Domain.model.Transactions;
+import com.thee5176.record.springboot_cqrs_query.Infrastructure.repository.TransactionRepository;
 
 @RestController
 @RequestMapping("/transaction")

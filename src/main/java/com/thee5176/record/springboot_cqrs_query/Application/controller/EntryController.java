@@ -1,4 +1,4 @@
-package com.thee5176.record.springboot_cqrs_query.controller;
+package com.thee5176.record.springboot_cqrs_query.Application.controller;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.thee5176.record.springboot_cqrs_query.model.Entries;
-import com.thee5176.record.springboot_cqrs_query.repository.EntryRepository;
+import com.thee5176.record.springboot_cqrs_query.Domain.model.Entries;
+import com.thee5176.record.springboot_cqrs_query.Infrastructure.repository.EntryRepository;
 
 @RestController
 @RequestMapping("/entities")
