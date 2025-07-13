@@ -1,10 +1,10 @@
-package com.thee5176.record.springboot_cqrs_query.config;
+package com.thee5176.record.springboot_cqrs_query.Application.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 public class ModelMapperConfig {
 
     @Bean
