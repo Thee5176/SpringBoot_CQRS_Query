@@ -12,7 +12,7 @@ import com.thee5176.record.springboot_cqrs_query.Domain.model.Entries;
 @Repository
 @SuppressAjWarnings("null")
 public interface EntryRepository extends JpaRepository<Entries, UUID> {
-    public Optional<Entries> findById( UUID id);
+    public Optional<Entries> findById(UUID id);
     
     public void deleteById(UUID id);
 }

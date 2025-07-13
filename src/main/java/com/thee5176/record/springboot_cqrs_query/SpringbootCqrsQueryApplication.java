@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories("com.thee5176.record.springboot_cqrs_query.repository")
-@EntityScan("com.thee5176.record.springboot_cqrs_query.model")
+@EnableJpaRepositories("com.thee5176.record.springboot_cqrs_query.Infrastructure.repository")
+@EntityScan("com.thee5176.record.springboot_cqrs_query.Domain.model")
 @ComponentScan
 public class SpringbootCqrsQueryApplication {
 
