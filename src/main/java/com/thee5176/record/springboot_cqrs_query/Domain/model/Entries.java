@@ -6,15 +6,14 @@ package com.thee5176.record.springboot_cqrs_query.Domain.model;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
 import com.thee5176.record.springboot_cqrs_query.Domain.model.enums.BalanceType;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Builder;
 
 
 /**
@@ -24,6 +23,7 @@ import jakarta.persistence.Table;
 
  */
 @Entity
+@Builder
 @Table(name = "entries")
 public class Entries {
 //TODO:Create Swagger Docs

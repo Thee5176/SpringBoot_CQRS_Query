@@ -4,13 +4,13 @@ package com.thee5176.record.springboot_cqrs_query.Domain.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Builder;
 
 
 /**
@@ -20,6 +20,7 @@ import jakarta.persistence.Table;
 
  */
 @Entity
+@Builder
 @Table(name = "transactions")
 public class Transactions {
 //TODO : Create Swagger Docs
