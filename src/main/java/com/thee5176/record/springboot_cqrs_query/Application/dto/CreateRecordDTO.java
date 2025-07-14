@@ -1,16 +1,12 @@
 package com.thee5176.record.springboot_cqrs_query.Application.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record CreateRecordDTO (
-    CreateTransactionDTO createTransactionsDTO,
-    List<CreateEntryDTO> createEntriesDTO
+    CreateTransactionDTO transaction,
+    List<CreateEntryDTO> entries,
+    LocalDateTime timestamp
 ) {
-    public CreateTransactionDTO getTransaction() {
-        return createTransactionsDTO;
-    }
-
-    public List<CreateEntryDTO> getEntries() {
-        return createEntriesDTO;
-    }
+    
 }

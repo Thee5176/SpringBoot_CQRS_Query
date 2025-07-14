@@ -3,10 +3,9 @@ package com.thee5176.record.springboot_cqrs_query.Application.dto;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
-
 import com.thee5176.record.springboot_cqrs_query.Domain.model.enums.BalanceType;
 
-public record Bookrecord(
+public record RecordDTO(
     UUID transaction_id,
     Date date,
     String description,
