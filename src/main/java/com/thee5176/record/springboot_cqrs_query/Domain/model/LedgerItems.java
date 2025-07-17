@@ -24,8 +24,8 @@ import lombok.Builder;
  */
 @Entity
 @Builder
-@Table(name = "entries")
-public class Entries {
+@Table(name = "ledger_items")
+public class LedgerItems {
 //TODO:Create Swagger Docs
     // POST
     // {
@@ -53,10 +53,10 @@ public class Entries {
     @Column(name = "updated_at", nullable = false, unique = false)
     private LocalDateTime updatedAt;
 
-    public Entries() {
+    public LedgerItems() {
     }
 
-    public Entries(Entries value) {
+    public LedgerItems(LedgerItems value) {
         this.id = value.id;
         this.transactionId = value.transactionId;
         this.coa = value.coa;
@@ -66,7 +66,7 @@ public class Entries {
         this.updatedAt = value.updatedAt;
     }
 
-    public Entries(
+    public LedgerItems(
             UUID id,
             UUID transactionId,
             Integer coa,
@@ -84,106 +84,106 @@ public class Entries {
     }
 
     /**
-     * Getter for <code>public.entries.id</code>.
+     * Getter for <code>public.ledger_items.id</code>.
      */
     public UUID getId() {
         return this.id;
     }
 
     /**
-     * Setter for <code>public.entries.id</code>.
+     * Setter for <code>public.ledger_items.id</code>.
      */
-    public Entries setId(UUID id) {
+    public LedgerItems setId(UUID id) {
         this.id = id;
         return this;
     }
 
     /**
-     * Getter for <code>public.entries.transaction_id</code>.
+     * Getter for <code>public.ledger_items.transaction_id</code>.
      */
-    public UUID getTransactionId() {
+    public UUID getLedgerId() {
         return this.transactionId;
     }
 
     /**
-     * Setter for <code>public.entries.transaction_id</code>.
+     * Setter for <code>public.ledger_items.transaction_id</code>.
      */
-    public Entries setTransactionId(UUID transactionId) {
+    public LedgerItems setLedgerId(UUID transactionId) {
         this.transactionId = transactionId;
         return this;
     }
 
     /**
-     * Getter for <code>public.entries.coa</code>.
+     * Getter for <code>public.ledger_items.coa</code>.
      */
     public Integer getCoa() {
         return this.coa;
     }
 
     /**
-     * Setter for <code>public.entries.coa</code>.
+     * Setter for <code>public.ledger_items.coa</code>.
      */
-    public Entries setCoa(Integer coa) {
+    public LedgerItems setCoa(Integer coa) {
         this.coa = coa;
         return this;
     }
 
     /**
-     * Getter for <code>public.entries.amount</code>.
+     * Getter for <code>public.ledger_items.amount</code>.
      */
     public Double getAmount() {
         return this.amount;
     }
 
     /**
-     * Setter for <code>public.entries.amount</code>.
+     * Setter for <code>public.ledger_items.amount</code>.
      */
-    public Entries setAmount(Double amount) {
+    public LedgerItems setAmount(Double amount) {
         this.amount = amount;
         return this;
     }
 
     /**
-     * Getter for <code>public.entries.type</code>.
+     * Getter for <code>public.ledger_items.type</code>.
      */
     public BalanceType getType() {
         return this.type;
     }
 
     /**
-     * Setter for <code>public.entries.type</code>.
+     * Setter for <code>public.ledger_items.type</code>.
      */
-    public Entries setType(BalanceType type) {
+    public LedgerItems setType(BalanceType type) {
         this.type = type;
         return this;
     }
 
     /**
-     * Getter for <code>public.entries.created_at</code>.
+     * Getter for <code>public.ledger_items.created_at</code>.
      */
     public LocalDateTime getCreatedAt() {
         return this.createdAt;
     }
 
     /**
-     * Setter for <code>public.entries.created_at</code>.
+     * Setter for <code>public.ledger_items.created_at</code>.
      */
-    public Entries setCreatedAt(LocalDateTime createdAt) {
+    public LedgerItems setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
         return this;
     }
 
     /**
-     * Getter for <code>public.entries.updated_at</code>.
+     * Getter for <code>public.ledger_items.updated_at</code>.
      */
     public LocalDateTime getUpdatedAt() {
         return this.updatedAt;
     }
 
     /**
-     * Setter for <code>public.entries.updated_at</code>.
+     * Setter for <code>public.ledger_items.updated_at</code>.
      */
-    public Entries setUpdatedAt(LocalDateTime updatedAt) {
+    public LedgerItems setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
         return this;
     }
@@ -196,7 +196,7 @@ public class Entries {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final Entries other = (Entries) obj;
+        final LedgerItems other = (LedgerItems) obj;
         if (this.id == null) {
             if (other.id != null)
                 return false;
@@ -251,7 +251,7 @@ public class Entries {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Entries (");
+        StringBuilder sb = new StringBuilder("LedgerItems (");
 
         sb.append(id);
         sb.append(", ").append(transactionId);

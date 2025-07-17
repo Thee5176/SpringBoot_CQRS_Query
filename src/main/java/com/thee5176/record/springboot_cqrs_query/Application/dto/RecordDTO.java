@@ -6,7 +6,7 @@ import java.util.UUID;
 import com.thee5176.record.springboot_cqrs_query.Domain.model.enums.BalanceType;
 
 public record RecordDTO(
-    UUID transaction_id,
+    UUID ledger_id,
     Date date,
     String description,
     BalanceType type,

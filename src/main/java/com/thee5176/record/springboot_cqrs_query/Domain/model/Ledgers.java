@@ -22,7 +22,7 @@ import lombok.Builder;
 @Entity
 @Builder
 @Table(name = "transactions")
-public class Transactions {
+public class Ledgers {
 //TODO : Create Swagger Docs
     // POST
     // {
@@ -43,9 +43,9 @@ public class Transactions {
     @Column(name = "updated_at",nullable = false, unique = false)
     private LocalDateTime updatedAt;
 
-    public Transactions() {}
+    public Ledgers() {}
 
-    public Transactions(Transactions value) {
+    public Ledgers(Ledgers value) {
         this.id = value.id;
         this.date = value.date;
         this.description = value.description;
@@ -53,7 +53,7 @@ public class Transactions {
         this.updatedAt = value.updatedAt;
     }
 
-    public Transactions(
+    public Ledgers(
         UUID id,
         LocalDate date,
         String description,
@@ -77,7 +77,7 @@ public class Transactions {
     /**
      * Setter for <code>public.transactions.id</code>.
      */
-    public Transactions setId(UUID id) {
+    public Ledgers setId(UUID id) {
         this.id = id;
         return this;
     }
@@ -92,7 +92,7 @@ public class Transactions {
     /**
      * Setter for <code>public.transactions.date</code>.
      */
-    public Transactions setDate(LocalDate date) {
+    public Ledgers setDate(LocalDate date) {
         this.date = date;
         return this;
     }
@@ -107,7 +107,7 @@ public class Transactions {
     /**
      * Setter for <code>public.transactions.description</code>.
      */
-    public Transactions setDescription(String description) {
+    public Ledgers setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -122,7 +122,7 @@ public class Transactions {
     /**
      * Setter for <code>public.transactions.created_at</code>.
      */
-    public Transactions setCreatedAt(LocalDateTime createdAt) {
+    public Ledgers setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
         return this;
     }
@@ -137,7 +137,7 @@ public class Transactions {
     /**
      * Setter for <code>public.transactions.updated_at</code>.
      */
-    public Transactions setUpdatedAt(LocalDateTime updatedAt) {
+    public Ledgers setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
         return this;
     }
@@ -150,7 +150,7 @@ public class Transactions {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final Transactions other = (Transactions) obj;
+        final Ledgers other = (Ledgers) obj;
         if (this.id == null) {
             if (other.id != null)
                 return false;
@@ -198,7 +198,7 @@ public class Transactions {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Transactions (");
+        StringBuilder sb = new StringBuilder("Ledgers (");
 
         sb.append(id);
         sb.append(", ").append(date);
