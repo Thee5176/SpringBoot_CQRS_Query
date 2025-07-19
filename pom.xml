@@ -28,13 +28,26 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<!-- jOOQ Codegen DB properties -->
-		<jooq.codegen.db.url>jdbc:postgresql://localhost:5999/record</jooq.codegen.db.url>
-		<jooq.codegen.db.user>springboot_admin</jooq.codegen.db.user>
-		<jooq.codegen.db.password>password</jooq.codegen.db.password>
-	</properties>
+			<!-- jOOQ Codegen DB properties -->
+			<db.url>${env.SPRING_DATASOURCE_URL}</db.url>
+			<db.user>${env.SPRING_DATASOURCE_USERNAME}</db.user>
+			<db.password>${env.SPRING_DATASOURCE_PASSWORD}</db.password>
+		</properties>
+		<profiles>
+		<!-- Fallback profile if env variables are not defined -->
+		<profile>
+			<id>default-db</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<db.url>jdbc:postgresql://localhost:5999/record</db.url>
+				<db.user>springboot_admin</db.user>
+				<db.password>password</db.password>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -97,7 +110,7 @@
 
 	<build>
 		<plugins>
-			<plugin>
+			<!-- <plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>dockerfile-maven-plugin</artifactId>
 				<version>1.4.13</version>
@@ -113,7 +126,7 @@
 					<repository>ledger_query</repository>
 					<tag>${project.version}</tag>
 				</configuration>
-			</plugin>
+			</plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -154,9 +167,9 @@
 				<configuration>
 					<jdbc>
 						<driver>org.postgresql.Driver</driver>
-						<url>${jooq.codegen.db.url}</url>
-						<user>${jooq.codegen.db.user}</user>
-						<password>${jooq.codegen.db.password}</password>
+						<url>${db.url}</url>
+						<user>${db.user}</user>
+						<password>${db.password}</password>
 					</jdbc>
 					<generator>
 						<database>
