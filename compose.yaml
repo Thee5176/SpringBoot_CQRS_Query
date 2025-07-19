@@ -1,11 +1,7 @@
 services:
-  record-query-db:
-    image: "mysql:latest"
-    container_name: mysql-query-record
-    environment:
-      - "MYSQL_DATABASE=record"
-      - "MYSQL_PASSWORD=password"
-      - "MYSQL_ROOT_PASSWORD=rootpassword"
-      - "MYSQL_USER=springboot_admin"
+  query_service:
+    build: .
+    image: springboot_cqrs_query
+    container_name: springboot_cqrs_query
     ports:
-      - "3999:3306"
+      - "8182:8080"
