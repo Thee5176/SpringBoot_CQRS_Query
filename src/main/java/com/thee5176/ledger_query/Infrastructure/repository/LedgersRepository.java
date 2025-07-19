@@ -10,11 +10,10 @@ import lombok.AllArgsConstructor;
 
 @Repository
 @AllArgsConstructor
-public class LedgerRepository {
+public class LedgersRepository {
     
     private final DSLContext dslContext;
     
-    //Read - https://www.jooq.org/doc/latest/manual/sql-building/sql-statements/select-statement/#select-from-single-tables
     public List<Ledgers> getAllLedgers() {
         return dslContext.selectFrom(Tables.LEDGERS)
             .fetchInto(Ledgers.class);
