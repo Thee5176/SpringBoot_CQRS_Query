@@ -78,21 +78,6 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-			<dependency>
-				<groupId>org.postgresql</groupId>
-				<artifactId>postgresql</artifactId>
-				<scope>runtime</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.jooq</groupId>
-				<artifactId>jooq-meta</artifactId>
-				<scope>runtime</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.jooq</groupId>
-				<artifactId>jooq-codegen</artifactId>
-				<scope>runtime</scope>
-			</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -102,6 +87,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
@@ -120,7 +110,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<repository>my-spring-app</repository>
+					<repository>ledger_query</repository>
 					<tag>${project.version}</tag>
 				</configuration>
 			</plugin>
@@ -140,6 +130,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<classifier>exec</classifier>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
@@ -153,45 +144,45 @@
 				<artifactId>jooq-codegen-maven</artifactId>
 				<executions>
 					<execution>
-						<id>generate-jooq</id>
+						<id>jooq-codegen</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>generate</goal>
 						</goals>
-						<configuration>
-							<jdbc>
-								<driver>org.postgresql.Driver</driver>
-								<url>${jooq.codegen.db.url}</url>
-								<user>${jooq.codegen.db.user}</user>
-								<password>${jooq.codegen.db.password}</password>
-							</jdbc>
-							<generator>
-								<database>
-									<name>org.jooq.meta.postgres.PostgresDatabase</name>
-									<includes>.*</includes>
-									<recordVersionFields>false</recordVersionFields>
-									<recordTimestampFields>false</recordTimestampFields>
-									<includeRoutines>false</includeRoutines>
-									<includeUDTs>false</includeUDTs>
-									<includeSequences>false</includeSequences>
-									<includePackages>false</includePackages>
-									<excludes></excludes>
-									<inputSchema>public</inputSchema>
-								</database>
-								<generate>
-									<pojos>true</pojos>
-									<pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
-									<javaTimeTypes>true</javaTimeTypes>
-									<fluentSetters>true</fluentSetters>
-								</generate>
-								<target>
-									<packageName>com.thee5176.ledger_query.Domain.model</packageName>
-									<directory>src/main/java</directory>
-								</target>
-							</generator>
-						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<jdbc>
+						<driver>org.postgresql.Driver</driver>
+						<url>${jooq.codegen.db.url}</url>
+						<user>${jooq.codegen.db.user}</user>
+						<password>${jooq.codegen.db.password}</password>
+					</jdbc>
+					<generator>
+						<database>
+							<name>org.jooq.meta.postgres.PostgresDatabase</name>
+							<includes>.*</includes>
+							<recordVersionFields>false</recordVersionFields>
+							<recordTimestampFields>false</recordTimestampFields>
+							<includeRoutines>false</includeRoutines>
+							<includeUDTs>false</includeUDTs>
+							<includeSequences>false</includeSequences>
+							<includePackages>false</includePackages>
+							<excludes></excludes>
+							<inputSchema>public</inputSchema>
+						</database>
+						<generate>
+							<pojos>true</pojos>
+							<pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
+							<javaTimeTypes>true</javaTimeTypes>
+							<fluentSetters>true</fluentSetters>
+						</generate>
+						<target>
+							<packageName>com.thee5176.ledger_query.Domain.model</packageName>
+							<directory>src/main/java</directory>
+						</target>
+					</generator>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
