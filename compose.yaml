@@ -6,5 +6,6 @@ services:
       - "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/record"
       - "SPRING_DATASOURCE_USERNAME=springboot_admin"
       - "SPRING_DATASOURCE_PASSWORD=password"
+      - "SERVER_PORT=8081"
     ports:
-      - "8182:8080"
+      - "8182:8081"
