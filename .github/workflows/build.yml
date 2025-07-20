@@ -31,9 +31,23 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+      - name: Start services and make migration
+        run: 
+          docker compose up -d test_query_postgres
+      - name: Migrate and Regen JOOQ Pojos
+        run: |
+          mvn flyway:migrate
+      - name: Wait for PostgreSQL
+        run: |
+          until docker compose exec -T test_query_postgres pg_isready -U springboot_admin -d record; do
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          done}-m2
+
+      
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Thee5176_SpringBoot_CQRS
       - name: End services
-        run: docker compose down postgres
+        run: docker compose down test_query_postgres
