@@ -42,9 +42,8 @@ jobs:
           until docker compose exec -T test_query_postgres pg_isready -U springboot_admin -d record; do
             echo "Waiting for PostgreSQL..."
             sleep 2
-          done}-m2
+          done
 
-      
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
