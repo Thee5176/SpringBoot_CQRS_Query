@@ -8,11 +8,11 @@
 		<version>3.5.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.thee5176.record</groupId>
-	<artifactId>springboot_cqrs_query</artifactId>
+	<groupId>com.thee5176.ledger_query</groupId>
+	<artifactId>ledger_query</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>springboot_cqrs_query</name>
-	<description>Demo project for Spring Boot</description>
+	<name>ledger_query</name>
+	<description>CQRS query service for Double Accounting System</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -28,11 +28,39 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-	</properties>
+			<!-- jOOQ Codegen DB properties -->
+			<db.url>${env.SPRING_DATASOURCE_URL}</db.url>
+			<db.user>${env.SPRING_DATASOURCE_USERNAME}</db.user>
+			<db.password>${env.SPRING_DATASOURCE_PASSWORD}</db.password>
+		</properties>
+		<profiles>
+		<!-- Fallback profile if env variables are not defined -->
+		<profile>
+			<id>default-db</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<db.url>jdbc:postgresql://localhost:5999/record</db.url>
+				<db.user>springboot_admin</db.user>
+				<db.password>password</db.password>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- Removed JPA, add jOOQ dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jooq</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -45,15 +73,12 @@
 			<scope>runtime</scope>
 			<version>2.8.8</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
 		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.2.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-mysql</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -67,11 +92,6 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -81,10 +101,32 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+			<!-- <plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.13</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<repository>ledger_query</repository>
+					<tag>${project.version}</tag>
+				</configuration>
+			</plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -101,12 +143,58 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<classifier>exec</classifier>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jooq</groupId>
+				<artifactId>jooq-codegen-maven</artifactId>
+				<executions>
+					<execution>
+						<id>jooq-codegen</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<jdbc>
+						<driver>org.postgresql.Driver</driver>
+						<url>${db.url}</url>
+						<user>${db.user}</user>
+						<password>${db.password}</password>
+					</jdbc>
+					<generator>
+						<database>
+							<name>org.jooq.meta.postgres.PostgresDatabase</name>
+							<includes>.*</includes>
+							<recordVersionFields>false</recordVersionFields>
+							<recordTimestampFields>false</recordTimestampFields>
+							<includeRoutines>false</includeRoutines>
+							<includeUDTs>false</includeUDTs>
+							<includeSequences>false</includeSequences>
+							<includePackages>false</includePackages>
+							<excludes></excludes>
+							<inputSchema>public</inputSchema>
+						</database>
+						<generate>
+							<pojos>true</pojos>
+							<pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
+							<javaTimeTypes>true</javaTimeTypes>
+							<fluentSetters>true</fluentSetters>
+						</generate>
+						<target>
+							<packageName>com.thee5176.ledger_query.Domain.model</packageName>
+							<directory>src/main/java</directory>
+						</target>
+					</generator>
 				</configuration>
 			</plugin>
 		</plugins>
