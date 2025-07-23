@@ -43,7 +43,7 @@ jobs:
         run: mvn flyway:migrate
 
       - name: Build application package
-        run: mvn clean package -DskipTests
+        run: mvn clean package
 
       - name: Build and run all services with Docker Compose
         run: docker compose up -d --build
