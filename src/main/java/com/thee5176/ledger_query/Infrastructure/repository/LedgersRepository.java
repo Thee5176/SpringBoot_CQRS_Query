@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
+
+import com.thee5176.ledger_query.Application.dto.LedgerOutputDTO;
 import com.thee5176.ledger_query.Domain.model.Tables;
 import com.thee5176.ledger_query.Domain.model.tables.pojos.Ledgers;
 import lombok.AllArgsConstructor;
@@ -23,5 +25,12 @@ public class LedgersRepository {
         return dslContext.selectFrom(Tables.LEDGERS)
             .where(Tables.LEDGERS.ID.eq(id))
             .fetchOneInto(Ledgers.class);
+    }
+
+    public LedgerOutputDTO getAllLedgerOutputDTO() {
+        return dslContext.selectFrom(Tables.LEDGERS)
+            .join(Tables.LEDGER_ITEMS)
+            .fetchInto(LedgerOutputDTO.class);
+            
     }
 }
