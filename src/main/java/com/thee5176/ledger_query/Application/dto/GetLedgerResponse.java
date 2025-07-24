@@ -4,14 +4,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import lombok.Data;
 
-public record GetLedgerResponse(
-    UUID ledger_id,
-    LocalDate date,
-    String description,
-    List<LedgerItemsAggregate> ledgerItems,
-    LocalDateTime created_at,
-    LocalDateTime updated_at
-) {
-
+@Data
+public class GetLedgerResponse {
+    private UUID ledgerId;
+    private LocalDate date;
+    private String description;
+    private List<LedgerItemsAggregate> ledgerItems;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

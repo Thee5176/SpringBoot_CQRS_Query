@@ -34,12 +34,12 @@ public class LedgersRepository {
             .fetchInto(LedgersQueryOutput.class);
     }
 
-    public LedgersQueryOutput getLedgerDTOById(UUID id) {
+    public List<LedgersQueryOutput> getLedgerDTOById(UUID id) {
         return dslContext.select(Tables.LEDGERS, Tables.LEDGER_ITEMS)
         .from(Tables.LEDGERS)
         .leftJoin(Tables.LEDGER_ITEMS)
         .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
         .where((Tables.LEDGERS.ID).eq(id))
-        .fetchOneInto(LedgersQueryOutput.class);
+        .fetchInto(LedgersQueryOutput.class);
     }
 }
