@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.thee5176.ledger_query.Application.dto.GetLedgerResponse;
 import com.thee5176.ledger_query.Application.dto.LedgerItemsAggregate;
 import com.thee5176.ledger_query.Application.dto.LedgersQueryOutput;
@@ -18,6 +19,7 @@ public class LedgerQueryService {
     private final ModelMapper modelMapper;
     private final LedgersRepository ledgersRepository;
 
+    @Transactional(readOnly = true)
     public List<GetLedgerResponse> getAllLedgers() {
         List<LedgersQueryOutput> queryOutputs = ledgersRepository.getAllLedgersDTO();
         
@@ -29,9 +31,10 @@ public class LedgerQueryService {
         
         // create a map of items aggregate by ledgerId
         Map<UUID, List<LedgerItemsAggregate>> itemsAggregateByLedgerId = queryOutputs.stream()
+            .filter(output -> output.getLedgerId() != null)
             .collect(Collectors.groupingBy(
-                LedgersQueryOutput::getLedgerId,
-                Collectors.mapping(output -> modelMapper.map(output, LedgerItemsAggregate.class), Collectors.toList())
+            LedgersQueryOutput::getLedgerId,
+            Collectors.mapping(output -> modelMapper.map(output, LedgerItemsAggregate.class), Collectors.toList())
             ));
 
         // set list of ledger items in each response by ledgerID
@@ -40,6 +43,7 @@ public class LedgerQueryService {
         return response;
     }
 
+    @Transactional(readOnly = true)
     public GetLedgerResponse getLedgerById(UUID id) {
         List<LedgersQueryOutput> queryOutput = ledgersRepository.getLedgerDTOById(id);
         

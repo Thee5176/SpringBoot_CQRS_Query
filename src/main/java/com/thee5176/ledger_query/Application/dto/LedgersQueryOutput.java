@@ -11,9 +11,11 @@ public class LedgersQueryOutput {
     private UUID ledgerId;
     private LocalDate date;
     private String description;
+    private LocalDateTime ledgerCreatedAt;
+    private LocalDateTime ledgerUpdatedAt;
+    private BalanceType type;
     private Integer coa;
     private Double amount;
-    private BalanceType type;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime ledgerItemCreatedAt;
+    private LocalDateTime ledgerItemUpdatedAt;
 }

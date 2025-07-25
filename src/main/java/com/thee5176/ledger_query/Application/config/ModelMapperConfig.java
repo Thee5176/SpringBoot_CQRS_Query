@@ -21,14 +21,16 @@ public class ModelMapperConfig {
             .addMapping(LedgersQueryOutput::getDate, GetLedgerResponse::setDate)
             .addMapping(LedgersQueryOutput::getDescription, GetLedgerResponse::setDescription)
             .addMappings(mapper -> mapper.skip(GetLedgerResponse::setLedgerItems))
-            .addMapping(LedgersQueryOutput::getCreatedAt, GetLedgerResponse::setCreatedAt)
-            .addMapping(LedgersQueryOutput::getUpdatedAt, GetLedgerResponse::setUpdatedAt);
+            .addMapping(LedgersQueryOutput::getLedgerCreatedAt, GetLedgerResponse::setCreatedAt)
+            .addMapping(LedgersQueryOutput::getLedgerUpdatedAt, GetLedgerResponse::setUpdatedAt);
         
         // Configure mapping from LedgersQueryOutput to LedgerItemsAggregate
         modelMapper.createTypeMap(LedgersQueryOutput.class, LedgerItemsAggregate.class)
             .addMapping(LedgersQueryOutput::getCoa, LedgerItemsAggregate::setCoa)
             .addMapping(LedgersQueryOutput::getAmount, LedgerItemsAggregate::setAmount)
-            .addMapping(LedgersQueryOutput::getType, LedgerItemsAggregate::setType);
+            .addMapping(LedgersQueryOutput::getType, LedgerItemsAggregate::setType)
+            .addMapping(LedgersQueryOutput::getLedgerCreatedAt, LedgerItemsAggregate::setCreatedAt)
+            .addMapping(LedgersQueryOutput::getLedgerUpdatedAt, LedgerItemsAggregate::setUpdatedAt);
 
         modelMapper.validate();
         return modelMapper;
