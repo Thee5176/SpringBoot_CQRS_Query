@@ -30,7 +30,7 @@ public class LedgerQueryService {
         // create a map of items aggregate by ledgerId
         Map<UUID, List<LedgerItemsAggregate>> itemsAggregateByLedgerId = queryOutputs.stream()
             .collect(Collectors.groupingBy(
-                LedgersQueryOutput::ledgerId,
+                LedgersQueryOutput::getLedgerId,
                 Collectors.mapping(output -> modelMapper.map(output, LedgerItemsAggregate.class), Collectors.toList())
             ));
 
@@ -48,7 +48,7 @@ public class LedgerQueryService {
 
         // set list of ledger items in response checking by ledgerId
         response.setLedgerItems(queryOutput.stream()
-            .filter(output -> output.ledgerId().equals(response.getLedgerId()))
+            .filter(output -> output.getLedgerId().equals(response.getLedgerId()))
             .map(output -> modelMapper.map(output, LedgerItemsAggregate.class))
             .toList());
         

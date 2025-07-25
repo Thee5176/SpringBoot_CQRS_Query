@@ -17,18 +17,18 @@ public class ModelMapperConfig {
         
         // Configure mapping from LedgersQueryOutput to GetLedgerResponse
         modelMapper.createTypeMap(LedgersQueryOutput.class, GetLedgerResponse.class)
-            .addMapping(LedgersQueryOutput::ledgerId, GetLedgerResponse::setLedgerId)
-            .addMapping(LedgersQueryOutput::date, GetLedgerResponse::setDate)
-            .addMapping(LedgersQueryOutput::description, GetLedgerResponse::setDescription)
+            .addMapping(LedgersQueryOutput::getLedgerId, GetLedgerResponse::setLedgerId)
+            .addMapping(LedgersQueryOutput::getDate, GetLedgerResponse::setDate)
+            .addMapping(LedgersQueryOutput::getDescription, GetLedgerResponse::setDescription)
             .addMappings(mapper -> mapper.skip(GetLedgerResponse::setLedgerItems))
-            .addMapping(LedgersQueryOutput::createdAt, GetLedgerResponse::setCreatedAt)
-            .addMapping(LedgersQueryOutput::updatedAt, GetLedgerResponse::setUpdatedAt);
+            .addMapping(LedgersQueryOutput::getCreatedAt, GetLedgerResponse::setCreatedAt)
+            .addMapping(LedgersQueryOutput::getUpdatedAt, GetLedgerResponse::setUpdatedAt);
         
         // Configure mapping from LedgersQueryOutput to LedgerItemsAggregate
         modelMapper.createTypeMap(LedgersQueryOutput.class, LedgerItemsAggregate.class)
-            .addMapping(LedgersQueryOutput::coa, LedgerItemsAggregate::setCoa)
-            .addMapping(LedgersQueryOutput::amount, LedgerItemsAggregate::setAmount)
-            .addMapping(LedgersQueryOutput::type, LedgerItemsAggregate::setType);
+            .addMapping(LedgersQueryOutput::getCoa, LedgerItemsAggregate::setCoa)
+            .addMapping(LedgersQueryOutput::getAmount, LedgerItemsAggregate::setAmount)
+            .addMapping(LedgersQueryOutput::getType, LedgerItemsAggregate::setType);
 
         modelMapper.validate();
         return modelMapper;
