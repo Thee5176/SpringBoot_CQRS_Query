@@ -51,12 +51,14 @@ public class LedgersQueryService {
         List<LedgersQueryOutput> queryOutput = ledgersRepository.getLedgerDTOById(id);
         log.info("Query Outputs: " + queryOutput);
 
-        // map the first item to GetLedgerResponse
-        GetLedgerResponse response = modelMapper.map(queryOutput, GetLedgerResponse.class);
+        // map the item to GetLedgerResponse
+        GetLedgerResponse response = queryOutput.stream()
+            .map(output -> modelMapper.map(output, GetLedgerResponse.class))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Ledger not found with id: " + id));
 
         // set list of ledger items in response checking by ledgerId
-        response.setLedgerItems(queryOutput.stream()
-            .filter(output -> output.getLedgerId().equals(response.getLedgerId()))
+        response.setLedgerItems( queryOutput.stream()
             .map(output -> modelMapper.map(output, LedgerItemsAggregate.class))
             .toList());
         

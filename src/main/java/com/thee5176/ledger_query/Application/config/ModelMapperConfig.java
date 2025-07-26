@@ -29,8 +29,8 @@ public class ModelMapperConfig {
             .addMapping(LedgersQueryOutput::getCoa, LedgerItemsAggregate::setCoa)
             .addMapping(LedgersQueryOutput::getAmount, LedgerItemsAggregate::setAmount)
             .addMapping(LedgersQueryOutput::getType, LedgerItemsAggregate::setType)
-            .addMapping(LedgersQueryOutput::getLedgerCreatedAt, LedgerItemsAggregate::setCreatedAt)
-            .addMapping(LedgersQueryOutput::getLedgerUpdatedAt, LedgerItemsAggregate::setUpdatedAt);
+            .addMapping(LedgersQueryOutput::getLedgerItemCreatedAt, LedgerItemsAggregate::setCreatedAt)
+            .addMapping(LedgersQueryOutput::getLedgerItemUpdatedAt, LedgerItemsAggregate::setUpdatedAt);
 
         modelMapper.validate();
         return modelMapper;
