@@ -12,9 +12,11 @@ import com.thee5176.ledger_query.Application.dto.LedgerItemsAggregate;
 import com.thee5176.ledger_query.Application.dto.LedgersQueryOutput;
 import com.thee5176.ledger_query.Infrastructure.repository.LedgersRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class LedgerQueryService {
     private final ModelMapper modelMapper;
     private final LedgersRepository ledgersRepository;
@@ -22,7 +24,8 @@ public class LedgerQueryService {
     @Transactional(readOnly = true)
     public List<GetLedgerResponse> getAllLedgers() {
         List<LedgersQueryOutput> queryOutputs = ledgersRepository.getAllLedgersDTO();
-        
+        log.info("Query Outputs: " + queryOutputs);
+
         // get all ledgers from query
         List<GetLedgerResponse> response = queryOutputs.stream()
             .map(output -> modelMapper.map(output, GetLedgerResponse.class))
@@ -46,7 +49,8 @@ public class LedgerQueryService {
     @Transactional(readOnly = true)
     public GetLedgerResponse getLedgerById(UUID id) {
         List<LedgersQueryOutput> queryOutput = ledgersRepository.getLedgerDTOById(id);
-        
+        log.info("Query Outputs: " + queryOutput);
+
         // map the first item to GetLedgerResponse
         GetLedgerResponse response = modelMapper.map(queryOutput.get(0), GetLedgerResponse.class);
 

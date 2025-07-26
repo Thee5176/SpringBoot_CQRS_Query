@@ -31,23 +31,22 @@ public class LedgersRepository {
 
     public List<LedgersQueryOutput> getAllLedgersDTO() {
         return dslContext.select(
-                Tables.LEDGERS.ID,
-                Tables.LEDGERS.DESCRIPTION,
-                Tables.LEDGER_ITEMS.ID,
-                Tables.LEDGERS.CREATED_AT,
-                Tables.LEDGERS.UPDATED_AT,
-                Tables.LEDGER_ITEMS.TYPE,
-                Tables.LEDGER_ITEMS.COA,
-                Tables.LEDGER_ITEMS.AMOUNT,
-                Tables.LEDGER_ITEMS.CREATED_AT,
-                Tables.LEDGER_ITEMS.UPDATED_AT
+                Tables.LEDGERS.ID.as("ledgerId"),
+                Tables.LEDGERS.DATE.as("date"),
+                Tables.LEDGERS.DESCRIPTION.as("description"),
+                Tables.LEDGERS.CREATED_AT.as("ledgerCreatedAt"),
+                Tables.LEDGERS.UPDATED_AT.as("ledgerUpdatedAt"),
+                Tables.LEDGER_ITEMS.TYPE.as("type"),
+                Tables.LEDGER_ITEMS.COA.as("coa"),
+                Tables.LEDGER_ITEMS.AMOUNT.as("amount"),
+                Tables.LEDGER_ITEMS.CREATED_AT.as("ledgerItemCreatedAt"),
+                Tables.LEDGER_ITEMS.UPDATED_AT.as("ledgerItemUpdatedAt")
             )
             .from(Tables.LEDGERS)
             .leftJoin(Tables.LEDGER_ITEMS)
             .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
             .fetchInto(LedgersQueryOutput.class);
     }
-
 
     public List<LedgersQueryOutput> getLedgerDTOById(@NotNull UUID id) {
         return dslContext.select(Tables.LEDGERS, Tables.LEDGER_ITEMS)
