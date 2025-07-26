@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class LedgerQueryService {
+public class LedgersQueryService {
     private final ModelMapper modelMapper;
     private final LedgersRepository ledgersRepository;
 
@@ -52,7 +52,7 @@ public class LedgerQueryService {
         log.info("Query Outputs: " + queryOutput);
 
         // map the first item to GetLedgerResponse
-        GetLedgerResponse response = modelMapper.map(queryOutput.get(0), GetLedgerResponse.class);
+        GetLedgerResponse response = modelMapper.map(queryOutput, GetLedgerResponse.class);
 
         // set list of ledger items in response checking by ledgerId
         response.setLedgerItems(queryOutput.stream()

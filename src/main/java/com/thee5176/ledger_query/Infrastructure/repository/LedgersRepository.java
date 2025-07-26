@@ -3,6 +3,7 @@ package com.thee5176.ledger_query.Infrastructure.repository;
 import java.util.List;
 import java.util.UUID;
 import org.jooq.DSLContext;
+import org.jooq.SelectSelectStep;
 import org.springframework.stereotype.Repository;
 import com.thee5176.ledger_query.Application.dto.LedgersQueryOutput;
 import com.thee5176.ledger_query.Domain.model.Tables;
@@ -17,6 +18,22 @@ import lombok.extern.slf4j.Slf4j;
 public class LedgersRepository {
     
     private final DSLContext dslContext;
+
+    // Reusable customized DSLContext for fetching LedgersQueryOutput DTOs
+    private SelectSelectStep<?> fetchDtoContext() {
+        return dslContext.select(
+            Tables.LEDGERS.ID.as("ledgerId"),
+            Tables.LEDGERS.DATE.as("date"),
+            Tables.LEDGERS.DESCRIPTION.as("description"),
+            Tables.LEDGERS.CREATED_AT.as("ledgerCreatedAt"),
+            Tables.LEDGERS.UPDATED_AT.as("ledgerUpdatedAt"),
+            Tables.LEDGER_ITEMS.TYPE.as("type"),
+            Tables.LEDGER_ITEMS.COA.as("coa"),
+            Tables.LEDGER_ITEMS.AMOUNT.as("amount"),
+            Tables.LEDGER_ITEMS.CREATED_AT.as("ledgerItemCreatedAt"),
+            Tables.LEDGER_ITEMS.UPDATED_AT.as("ledgerItemUpdatedAt")
+        );
+    }
     
     public List<Ledgers> getAllLedgers() {
         return dslContext.selectFrom(Tables.LEDGERS)
@@ -30,18 +47,7 @@ public class LedgersRepository {
     }
 
     public List<LedgersQueryOutput> getAllLedgersDTO() {
-        return dslContext.select(
-                Tables.LEDGERS.ID.as("ledgerId"),
-                Tables.LEDGERS.DATE.as("date"),
-                Tables.LEDGERS.DESCRIPTION.as("description"),
-                Tables.LEDGERS.CREATED_AT.as("ledgerCreatedAt"),
-                Tables.LEDGERS.UPDATED_AT.as("ledgerUpdatedAt"),
-                Tables.LEDGER_ITEMS.TYPE.as("type"),
-                Tables.LEDGER_ITEMS.COA.as("coa"),
-                Tables.LEDGER_ITEMS.AMOUNT.as("amount"),
-                Tables.LEDGER_ITEMS.CREATED_AT.as("ledgerItemCreatedAt"),
-                Tables.LEDGER_ITEMS.UPDATED_AT.as("ledgerItemUpdatedAt")
-            )
+        return fetchDtoContext()
             .from(Tables.LEDGERS)
             .leftJoin(Tables.LEDGER_ITEMS)
             .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
@@ -49,11 +55,11 @@ public class LedgersRepository {
     }
 
     public List<LedgersQueryOutput> getLedgerDTOById(@NotNull UUID id) {
-        return dslContext.select(Tables.LEDGERS, Tables.LEDGER_ITEMS)
-        .from(Tables.LEDGERS)
-        .leftJoin(Tables.LEDGER_ITEMS)
-        .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
-        .where((Tables.LEDGERS.ID).eq(id))
-        .fetchInto(LedgersQueryOutput.class);
+        return fetchDtoContext()
+            .from(Tables.LEDGERS)
+            .leftJoin(Tables.LEDGER_ITEMS)
+            .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
+            .where((Tables.LEDGERS.ID).eq(id))
+            .fetchInto(LedgersQueryOutput.class);
     }
 }

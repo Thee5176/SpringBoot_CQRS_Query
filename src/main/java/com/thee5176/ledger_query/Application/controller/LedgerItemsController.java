@@ -21,7 +21,7 @@ public class LedgerItemsController {
     }
 
     @GetMapping("/api/ledger-items")
-    public LedgerItems getLedgerItems(@RequestParam UUID uuid) {
+    public LedgerItems getLedgerItems(@RequestParam(name = "uuid") UUID uuid) {
         return ledgerItemsRepository.getLedgerItemsById(uuid);
     }
 }
