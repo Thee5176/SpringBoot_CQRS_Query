@@ -5,23 +5,23 @@ import java.util.UUID;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.thee5176.ledger_query.Domain.model.tables.pojos.Ledgers;
-import com.thee5176.ledger_query.Infrastructure.repository.LedgersRepository;
+import com.thee5176.ledger_query.Application.dto.GetLedgerResponse;
+import com.thee5176.ledger_query.Domain.service.LedgersQueryService;
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
 public class LedgersController {
 
-    private final LedgersRepository ledgersRepository;
+    private final LedgersQueryService ledgersQueryService;
 
     @GetMapping("/api/ledgers/all")
-    public List<Ledgers> testRepository() {
-        return ledgersRepository.getAllLedgers();
+    public List<GetLedgerResponse> testRepository() {
+        return ledgersQueryService.getAllLedgers();
     }
 
     @GetMapping("/api/ledgers")
-    public Ledgers getLedgerItems(@RequestParam UUID uuid) {
-        return ledgersRepository.getLedgerById(uuid);
+    public GetLedgerResponse getLedgerItems(@RequestParam(name = "uuid") UUID uuid) {
+        return ledgersQueryService.getLedgerById(uuid);
     }
 }
