@@ -10,12 +10,15 @@ import lombok.AllArgsConstructor;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+    "http://localhost:5173",  // local deployment
+    "http://localhost:8183"   // docker deployment
+})
 @AllArgsConstructor
 public class LedgersUIController {
     
     private final CodeOfAccountRepository codeOfAccountRepository;
-
+    
     @PostMapping("available-coa/json")
     public List<AvailableCodeOfAccountDto> getAvailableCoa() {
         return codeOfAccountRepository.getAvailableCoa();
