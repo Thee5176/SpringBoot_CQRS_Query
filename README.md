@@ -19,14 +19,10 @@ mvn clean package
 docker compose up -d --build
 
 ```
-Check the running project at [port 8185](http://localhost:8184)
+Check the running project at [port 8184](http://localhost:8184)
 
 ## Development Process
 see [Main Repository](https://github.com/Thee5176/Accounting_CQRS_Project)
-
-## Design Document
-
-<img width="464" height="542" alt="image" src="https://github.com/user-attachments/assets/df92b02e-a7ab-4775-81e7-de7703429c97" />
 
 # Highlight Functionality
 
