@@ -9,13 +9,16 @@
 ## Run Process with Docker
 ```bash
 #1 Prepare directory and clone from github
-git clone 
+git clone https://github.com/Thee5176/SpringBoot_CQRS_Query.git
 cd SpringBoot_CQRS_Query
 
-#2 
+#2 Run DB Container and make migration
+docker compose up test_query_postgres -d
+chmod +x mvnw
+./mvnw flyway:migrate
 
-#3  Build package and run process with docker
-mvn clean package
+#3  Build pakcage and run process with docker
+./mvnw clean package
 docker compose up -d --build
 
 ```
