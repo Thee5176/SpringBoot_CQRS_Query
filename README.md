@@ -27,6 +27,10 @@ Check the running project at [port 8184](http://localhost:8184)
 ## Development Process
 see [Main Repository](https://github.com/Thee5176/Accounting_CQRS_Project)
 
+## Design Document
+![Latest Design](https://github.com/user-attachments/assets/bdf7a257-a0f9-4529-9d43-5427851d1b1b)
+
+
 # Highlight Functionality
 
 ## Springboot Query Service
