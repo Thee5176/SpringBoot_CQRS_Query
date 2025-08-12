@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thee5176.ledger_query.Application.dto.GetLedgerResponse;
 import com.thee5176.ledger_query.Application.dto.LedgerItemsAggregate;
 import com.thee5176.ledger_query.Application.dto.LedgersQueryOutput;
+import com.thee5176.ledger_query.Application.exception.ItemNotFoundException;
 import com.thee5176.ledger_query.Infrastructure.repository.LedgersRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +23,10 @@ public class LedgersQueryService {
     private final LedgersRepository ledgersRepository;
 
     @Transactional(readOnly = true)
-    public List<GetLedgerResponse> getAllLedgers() {
-        List<LedgersQueryOutput> queryOutputs = ledgersRepository.getAllLedgersDTO();
+    public List<GetLedgerResponse> getAllLedgers() throws ItemNotFoundException {
+        List<LedgersQueryOutput> queryOutputs = ledgersRepository.getAllLedgersDTO()
+            .map(List::of)
+            .orElseThrow(() -> new ItemNotFoundException("No ledgers found"));
         log.info("Query Outputs: " + queryOutputs);
 
         // get all ledgers from query
@@ -47,15 +50,17 @@ public class LedgersQueryService {
     }
 
     @Transactional(readOnly = true)
-    public GetLedgerResponse getLedgerById(UUID id) {
-        List<LedgersQueryOutput> queryOutput = ledgersRepository.getLedgerDTOById(id);
+    public GetLedgerResponse getLedgerById(UUID id) throws ItemNotFoundException {
+        List<LedgersQueryOutput> queryOutput = ledgersRepository.getLedgerDTOById(id)
+            .map(List::of)
+            .orElseThrow(() -> new ItemNotFoundException("Ledger not found with id: " + id));
         log.info("Query Outputs: " + queryOutput);
 
         // map the item to GetLedgerResponse
         GetLedgerResponse response = queryOutput.stream()
             .map(output -> modelMapper.map(output, GetLedgerResponse.class))
             .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Ledger not found with id: " + id));
+            .orElseThrow(() -> new ItemNotFoundException("Ledger not found with id: " + id));
 
         // set list of ledger items in response checking by ledgerId
         response.setLedgerItems( queryOutput.stream()

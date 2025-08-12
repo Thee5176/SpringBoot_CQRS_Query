@@ -1,6 +1,6 @@
 package com.thee5176.ledger_query.Infrastructure.repository;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
@@ -14,14 +14,14 @@ public class LedgerItemsRepository {
     
     private final DSLContext dslContext;
 
-    public List<LedgerItems> getAllLedgerItems() {
+    public Optional<LedgerItems> getAllLedgerItems() {
         return dslContext.selectFrom(Tables.LEDGER_ITEMS)
-                .fetchInto(LedgerItems.class);
+                .fetchOptionalInto(LedgerItems.class);
     }
 
-    public LedgerItems getLedgerItemsById(UUID id) {
+    public Optional<LedgerItems> getLedgerItemsById(UUID id) {
         return dslContext.selectFrom(Tables.LEDGER_ITEMS)
             .where(Tables.LEDGER_ITEMS.ID.eq(id))
-            .fetchOneInto(LedgerItems.class);
+            .fetchOptionalInto(LedgerItems.class);
     }
 }

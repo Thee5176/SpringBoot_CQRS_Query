@@ -1,6 +1,6 @@
 package com.thee5176.ledger_query.Infrastructure.repository;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.jooq.DSLContext;
 import org.jooq.SelectSelectStep;
@@ -35,31 +35,31 @@ public class LedgersRepository {
         );
     }
     
-    public List<Ledgers> getAllLedgers() {
+    public Optional<Ledgers> getAllLedgers() {
         return dslContext.selectFrom(Tables.LEDGERS)
-            .fetchInto(Ledgers.class);
+            .fetchOptionalInto(Ledgers.class);
     }
 
-    public Ledgers getLedgerById(@NotNull UUID id) {
+    public Optional<Ledgers> getLedgerById(@NotNull UUID id) {
         return dslContext.selectFrom(Tables.LEDGERS)
             .where(Tables.LEDGERS.ID.eq(id))
-            .fetchOneInto(Ledgers.class);
+            .fetchOptionalInto(Ledgers.class);
     }
 
-    public List<LedgersQueryOutput> getAllLedgersDTO() {
+    public Optional<LedgersQueryOutput> getAllLedgersDTO() {
         return fetchDtoContext()
             .from(Tables.LEDGERS)
             .leftJoin(Tables.LEDGER_ITEMS)
             .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
-            .fetchInto(LedgersQueryOutput.class);
+            .fetchOptionalInto(LedgersQueryOutput.class);
     }
 
-    public List<LedgersQueryOutput> getLedgerDTOById(@NotNull UUID id) {
+    public Optional<LedgersQueryOutput> getLedgerDTOById(@NotNull UUID id) {
         return fetchDtoContext()
             .from(Tables.LEDGERS)
             .leftJoin(Tables.LEDGER_ITEMS)
             .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
             .where((Tables.LEDGERS.ID).eq(id))
-            .fetchInto(LedgersQueryOutput.class);
+            .fetchOptionalInto(LedgersQueryOutput.class);
     }
 }
