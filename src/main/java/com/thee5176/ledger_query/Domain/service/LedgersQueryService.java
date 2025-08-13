@@ -24,9 +24,7 @@ public class LedgersQueryService {
 
     @Transactional(readOnly = true)
     public List<GetLedgerResponse> getAllLedgers() throws ItemNotFoundException {
-        List<LedgersQueryOutput> queryOutputs = ledgersRepository.getAllLedgersDTO()
-            .map(List::of)
-            .orElseThrow(() -> new ItemNotFoundException("No ledgers found"));
+        List<LedgersQueryOutput> queryOutputs = ledgersRepository.getAllLedgersDTO();
         log.info("Query Outputs: " + queryOutputs);
 
         // get all ledgers from query

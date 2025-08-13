@@ -1,11 +1,13 @@
 package com.thee5176.ledger_query.Infrastructure.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.jooq.DSLContext;
 import org.jooq.SelectSelectStep;
 import org.springframework.stereotype.Repository;
 import com.thee5176.ledger_query.Application.dto.LedgersQueryOutput;
+import com.thee5176.ledger_query.Application.exception.ItemNotFoundException;
 import com.thee5176.ledger_query.Domain.model.Tables;
 import com.thee5176.ledger_query.Domain.model.tables.pojos.Ledgers;
 import jakarta.validation.constraints.NotNull;
@@ -35,9 +37,14 @@ public class LedgersRepository {
         );
     }
     
-    public Optional<Ledgers> getAllLedgers() {
-        return dslContext.selectFrom(Tables.LEDGERS)
-            .fetchOptionalInto(Ledgers.class);
+    public List<Ledgers> getAllLedgers() {
+        try {
+            return dslContext.selectFrom(Tables.LEDGERS)
+                .fetchInto(Ledgers.class);
+        } catch (Exception e) {
+            log.error("Error fetching all ledgers", e);
+            throw new ItemNotFoundException("Error fetching all ledgers");
+        }
     }
 
     public Optional<Ledgers> getLedgerById(@NotNull UUID id) {
@@ -46,20 +53,25 @@ public class LedgersRepository {
             .fetchOptionalInto(Ledgers.class);
     }
 
-    public Optional<LedgersQueryOutput> getAllLedgersDTO() {
-        return fetchDtoContext()
-            .from(Tables.LEDGERS)
-            .leftJoin(Tables.LEDGER_ITEMS)
-            .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
-            .fetchOptionalInto(LedgersQueryOutput.class);
+    public List<LedgersQueryOutput> getAllLedgersDTO() {
+        try {
+            return fetchDtoContext()
+                .from(Tables.LEDGERS)
+                .leftJoin(Tables.LEDGER_ITEMS)
+                .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
+                .fetchInto(LedgersQueryOutput.class);
+        } catch (Exception e) {
+            log.error("Error fetching all ledgers DTOs", e);
+            throw new ItemNotFoundException("Error fetching all ledgers DTOs");
+        }
     }
 
     public Optional<LedgersQueryOutput> getLedgerDTOById(@NotNull UUID id) {
-        return fetchDtoContext()
-            .from(Tables.LEDGERS)
-            .leftJoin(Tables.LEDGER_ITEMS)
-            .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
-            .where((Tables.LEDGERS.ID).eq(id))
-            .fetchOptionalInto(LedgersQueryOutput.class);
+            return fetchDtoContext()
+                .from(Tables.LEDGERS)
+                .leftJoin(Tables.LEDGER_ITEMS)
+                .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
+                .where((Tables.LEDGERS.ID).eq(id))
+                .fetchOptionalInto(LedgersQueryOutput.class);
     }
 }
