@@ -32,6 +32,27 @@ jobs:
       - name: Clean up Docker environment
         run: docker compose down -v --remove-orphans
           
+      - name: Check if all DB secrets are set
+        run: |
+          missing=""
+          if [ -z "$DB_URL" ]; then
+            echo "DB_URL is not set"
+            missing="yes"
+          fi
+          if [ -z "$DB_PASSWORD" ]; then
+            echo "DB_PASSWORD is not set"
+            missing="yes"
+          fi
+          if [ -z "$DB_USERNAME" ]; then
+            echo "DB_USERNAME is not set"
+            missing="yes"
+          fi
+          if [ -n "$missing" ]; then
+            echo "One or more secrets are missing"
+            exit 1
+          else
+            echo "All DB secrets are set"
+          fi
       - name: Run Flyway migrations
         run: mvn flyway:migrate
 
