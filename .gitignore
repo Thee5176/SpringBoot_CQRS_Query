@@ -34,3 +34,5 @@ build/
 
 /logs/
 /SpringBoot_CQRS_Query/
+
+.env*
