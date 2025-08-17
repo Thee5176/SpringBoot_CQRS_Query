@@ -14,6 +14,10 @@ jobs:
   build:
     name: Build and Run with Docker Compose
     runs-on: ubuntu-latest
+    env:
+      DB_URL: ${{ secrets.DB_URL }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_USERNAME: ${{ vars.DB_USERNAME }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -27,17 +31,6 @@ jobs:
 
       - name: Clean up Docker environment
         run: docker compose down -v --remove-orphans
-
-      - name: Start database service
-        run: docker compose up test_query_postgres -d
-
-      - name: Wait for database to be ready
-        run: |
-          echo "Waiting for database connection..."
-          until docker compose exec -T test_query_postgres pg_isready -U postgres; do
-          sleep 2
-          done
-          echo "Database is ready."
           
       - name: Run Flyway migrations
         run: mvn flyway:migrate
