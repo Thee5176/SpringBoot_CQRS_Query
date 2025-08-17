@@ -2,8 +2,6 @@ services:
   test_query_service:
     build: .
     container_name: test_query_service
-    env_file:
-      - .env
     environment:
       DB_URL: ${DB_URL}
       DB_USERNAME: ${DB_USERNAME}
