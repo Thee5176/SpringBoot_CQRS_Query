@@ -15,6 +15,10 @@ jobs:
     environment: Supabase
     name: Build and Run with Docker Compose
     runs-on: ubuntu-latest
+    env:
+      DB_URL: ${{ secrets.DB_URL }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,10 +34,6 @@ jobs:
         run: docker compose down -v --remove-orphans
           
       - name: Check if all DB secrets are set
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_USERNAME: ${{ vars.DB_USERNAME }}
         run: |
           missing=""
           if [ -z "$DB_URL" ]; then
@@ -55,22 +55,10 @@ jobs:
             echo "All DB secrets are set"
           fi
       - name: Run Flyway migrations
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: mvn flyway:migrate
 
       - name: Build application package
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: mvn clean package
 
       - name: Build and run all services with Docker Compose
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: docker compose up -d --build
