@@ -1,6 +1,6 @@
 services:
   test_query_service:
-    build: .
+    build: ../.
     container_name: test_query_service
     environment:
       - DB_URL

@@ -13,13 +13,12 @@ git clone https://github.com/Thee5176/SpringBoot_CQRS_Query.git
 cd SpringBoot_CQRS_Query
 
 #2 Run DB Container and make migration
-docker compose up test_query_postgres -d
 chmod +x mvnw
 ./mvnw flyway:migrate
 
 #3  Build pakcage and run process with docker
 ./mvnw clean package
-docker compose up -d --build
+docker compose -f docker/compose.yaml -f docker/docker-compose.local.yaml up -d --build
 
 ```
 Check the running project at [port 8184](http://localhost:8184)
