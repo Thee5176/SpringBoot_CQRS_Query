@@ -36,3 +36,4 @@ build/
 /SpringBoot_CQRS_Query/
 
 .env*
+env.properties
