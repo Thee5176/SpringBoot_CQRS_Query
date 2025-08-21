@@ -1,7 +1,5 @@
 services:
   test_query_service:
     container_name: test_query_service
-    environment:
-      - DB_URL
-      - DB_USERNAME
-      - DB_PASSWORD
+    env_file:
+      - ../env.properties

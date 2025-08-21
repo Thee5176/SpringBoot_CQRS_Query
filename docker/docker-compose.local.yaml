@@ -1,5 +1,0 @@
-services:
-  test_query_service:
-    container_name: test_query_service
-    env_file:
-      - ../.env
