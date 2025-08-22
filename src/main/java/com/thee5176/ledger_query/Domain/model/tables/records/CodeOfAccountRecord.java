@@ -126,7 +126,7 @@ public class CodeOfAccountRecord extends UpdatableRecordImpl<CodeOfAccountRecord
         setLevel(level);
         setElement(element);
         setType(type);
-        resetChangedOnNotNull();
+        resetTouchedOnNotNull();
     }
 
     /**
@@ -141,7 +141,7 @@ public class CodeOfAccountRecord extends UpdatableRecordImpl<CodeOfAccountRecord
             setLevel(value.getLevel());
             setElement(value.getElement());
             setType(value.getType());
-            resetChangedOnNotNull();
+            resetTouchedOnNotNull();
         }
     }
 }

@@ -128,7 +128,7 @@ public class LedgersRecord extends UpdatableRecordImpl<LedgersRecord> {
         setDescription(description);
         setCreatedAt(createdAt);
         setUpdatedAt(updatedAt);
-        resetChangedOnNotNull();
+        resetTouchedOnNotNull();
     }
 
     /**
@@ -143,7 +143,7 @@ public class LedgersRecord extends UpdatableRecordImpl<LedgersRecord> {
             setDescription(value.getDescription());
             setCreatedAt(value.getCreatedAt());
             setUpdatedAt(value.getUpdatedAt());
-            resetChangedOnNotNull();
+            resetTouchedOnNotNull();
         }
     }
 }

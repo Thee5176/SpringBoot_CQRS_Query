@@ -18,6 +18,7 @@ import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
+import org.jooq.impl.QOM.ForeignKeyRule;
 
 
 /**
@@ -41,6 +42,6 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<LedgerItemsRecord, CodeOfAccountRecord> LEDGER_ITEMS__ENTRIES_COA_FKEY = Internal.createForeignKey(LedgerItems.LEDGER_ITEMS, DSL.name("entries_coa_fkey"), new TableField[] { LedgerItems.LEDGER_ITEMS.COA }, Keys.CODE_OF_ACCOUNT_PKEY, new TableField[] { CodeOfAccount.CODE_OF_ACCOUNT.CODE }, true);
-    public static final ForeignKey<LedgerItemsRecord, LedgersRecord> LEDGER_ITEMS__ENTRIES_TRANSACTION_ID_FKEY = Internal.createForeignKey(LedgerItems.LEDGER_ITEMS, DSL.name("entries_transaction_id_fkey"), new TableField[] { LedgerItems.LEDGER_ITEMS.LEDGER_ID }, Keys.TRANSACTIONS_PKEY, new TableField[] { Ledgers.LEDGERS.ID }, true);
+    public static final ForeignKey<LedgerItemsRecord, CodeOfAccountRecord> LEDGER_ITEMS__ENTRIES_COA_FKEY = Internal.createForeignKey(LedgerItems.LEDGER_ITEMS, DSL.name("entries_coa_fkey"), new TableField[] { LedgerItems.LEDGER_ITEMS.COA }, Keys.CODE_OF_ACCOUNT_PKEY, new TableField[] { CodeOfAccount.CODE_OF_ACCOUNT.CODE }, true, ForeignKeyRule.SET_NULL, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<LedgerItemsRecord, LedgersRecord> LEDGER_ITEMS__ENTRIES_TRANSACTION_ID_FKEY = Internal.createForeignKey(LedgerItems.LEDGER_ITEMS, DSL.name("entries_transaction_id_fkey"), new TableField[] { LedgerItems.LEDGER_ITEMS.LEDGER_ID }, Keys.TRANSACTIONS_PKEY, new TableField[] { Ledgers.LEDGERS.ID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
 }

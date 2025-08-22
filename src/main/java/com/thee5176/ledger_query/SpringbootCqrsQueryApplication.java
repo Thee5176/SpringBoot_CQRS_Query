@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringbootCqrsQueryApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(SpringbootCqrsQueryApplication.class, args);
 	}
 

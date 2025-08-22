@@ -160,7 +160,7 @@ public class LedgerItemsRecord extends UpdatableRecordImpl<LedgerItemsRecord> {
         setType(type);
         setCreatedAt(createdAt);
         setUpdatedAt(updatedAt);
-        resetChangedOnNotNull();
+        resetTouchedOnNotNull();
     }
 
     /**
@@ -177,7 +177,7 @@ public class LedgerItemsRecord extends UpdatableRecordImpl<LedgerItemsRecord> {
             setType(value.getType());
             setCreatedAt(value.getCreatedAt());
             setUpdatedAt(value.getUpdatedAt());
-            resetChangedOnNotNull();
+            resetTouchedOnNotNull();
         }
     }
 }

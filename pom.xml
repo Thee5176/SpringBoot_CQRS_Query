@@ -28,25 +28,13 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-			<!-- jOOQ Codegen DB properties -->
-			<db.url>${env.SPRING_DATASOURCE_URL}</db.url>
-			<db.user>${env.SPRING_DATASOURCE_USERNAME}</db.user>
-			<db.password>${env.SPRING_DATASOURCE_PASSWORD}</db.password>
-		</properties>
-		<profiles>
-		<!-- Fallback profile if env variables are not defined -->
-		<profile>
-			<id>default-db</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<db.url>jdbc:postgresql://localhost:5999/record</db.url>
-				<db.user>springboot_admin</db.user>
-				<db.password>password</db.password>
-			</properties>
-		</profile>
-	</profiles>
+		<flyway.version>11.7.2</flyway.version>
+		<jooq.version>3.20.6</jooq.version>
+		<!-- jOOQ Codegen DB properties -->
+		<db.url>${env.DB_URL}</db.url>
+		<db.user>${env.DB_USERNAME}</db.user>
+		<db.password>${env.DB_PASSWORD}</db.password>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -59,10 +47,6 @@
 			<artifactId>spring-boot-starter-jooq</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jooq</groupId>
-			<artifactId>jooq</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
@@ -73,17 +57,14 @@
 			<scope>runtime</scope>
 			<version>2.8.8</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
 		<dependency>
-			<groupId>org.modelmapper</groupId>
-			<artifactId>modelmapper</artifactId>
-			<version>3.2.0</version>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-database-postgresql</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
@@ -92,22 +73,21 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-mysql</artifactId>
 		</dependency>
-				<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation -->
+		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-docker-compose</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
@@ -130,23 +110,6 @@
 
 	<build>
 		<plugins>
-			<!-- <plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>1.4.13</version>
-				<executions>
-					<execution>
-						<id>default</id>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<repository>ledger_query</repository>
-					<tag>${project.version}</tag>
-				</configuration>
-			</plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -184,19 +147,20 @@
 						<location>filesystem:src/main/resources/db/migration</location>
 					</locations>
 				</configuration>
+				<executions>
+					<execution>
+						<id>migrate</id>
+						<phase>none</phase>  <!--Disable auto-run-->
+						<goals>
+							<goal>migrate</goal> <!--command :: mvn flyway:migrate-->
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.jooq</groupId>
 				<artifactId>jooq-codegen-maven</artifactId>
-				<executions>
-					<execution>
-						<id>jooq-codegen</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
+				<version>${jooq.version}</version>
 				<configuration>
 					<jdbc>
 						<driver>org.postgresql.Driver</driver>
@@ -229,6 +193,15 @@
 						</target>
 					</generator>
 				</configuration>
+				<executions>
+					<execution>
+						<id>jooq-codegen</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
