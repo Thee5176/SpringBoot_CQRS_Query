@@ -2,6 +2,10 @@ services:
   test_query_service:
     build: .
     container_name: test_query_service
+    develop:
+      watch:
+        - path: /target/*-exec.jar
+          action: rebuild
     env_file:
       - ./env.properties
     ports:
