@@ -1,10 +1,8 @@
 services:
   test_query_service:
-    build: ../.
+    build: .
     container_name: test_query_service
-    environment:
-      - DB_URL
-      - DB_USERNAME
-      - DB_PASSWORD
+    env_file:
+      - ./env.properties
     ports:
       - "8184:8081"

@@ -28,7 +28,6 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<flyway.version>11.7.2</flyway.version>
 		<jooq.version>3.20.6</jooq.version>
 		<!-- jOOQ Codegen DB properties -->
 		<db.url>${env.DB_URL}</db.url>
@@ -60,18 +59,6 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-database-postgresql</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-mysql</artifactId>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
 		<dependency>
@@ -134,28 +121,6 @@
 						</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-maven-plugin</artifactId>
-				<version>${flyway.version}</version>
-				<configuration>
-					<url>${db.url}</url>
-					<user>${db.user}</user>
-					<password>${db.password}</password>
-					<locations>
-						<location>filesystem:src/main/resources/db/migration</location>
-					</locations>
-				</configuration>
-				<executions>
-					<execution>
-						<id>migrate</id>
-						<phase>none</phase>  <!--Disable auto-run-->
-						<goals>
-							<goal>migrate</goal> <!--command :: mvn flyway:migrate-->
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.jooq</groupId>
