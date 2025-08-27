@@ -4,7 +4,7 @@ services:
     container_name: test_query_service
     develop:
       watch:
-        - path: /target/*-exec.jar
+        - path: ./target/*-exec.jar
           action: rebuild
     env_file:
       - ./env.properties
