@@ -29,10 +29,7 @@
 	<properties>
 		<java.version>21</java.version>
 		<jooq.version>3.20.6</jooq.version>
-		<!-- jOOQ Codegen DB properties -->
-		<db.url>${env.DB_URL}</db.url>
-		<db.user>${env.DB_USERNAME}</db.user>
-		<db.password>${env.DB_PASSWORD}</db.password>
+		<!-- jOOQ Codegen DB properties are read from env.properties at initialize -->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -97,6 +94,25 @@
 
 	<build>
 		<plugins>
+			<!-- Load project properties from env.properties (if present) -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<files>
+								<file>env.properties</file>
+							</files>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -137,9 +153,9 @@
 						<configuration>
 							<jdbc>
 								<driver>org.postgresql.Driver</driver>
-								<url>${db.url}</url>
-								<user>${db.user}</user>
-								<password>${db.password}</password>
+								<url>${DB_URL}</url>
+								<user>${DB_USERNAME}</user>
+								<password>${DB_PASSWORD}</password>
 							</jdbc>
 							<generator>
 								<database>
