@@ -94,25 +94,6 @@
 
 	<build>
 		<plugins>
-			<!-- Load project properties from env.properties (if present) -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>properties-maven-plugin</artifactId>
-				<version>1.0.0</version>
-				<executions>
-					<execution>
-						<phase>initialize</phase>
-						<goals>
-							<goal>read-project-properties</goal>
-						</goals>
-						<configuration>
-							<files>
-								<file>env.properties</file>
-							</files>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -177,7 +158,7 @@
 									<fluentSetters>true</fluentSetters>
 								</generate>
 								<target>
-									<packageName>com.thee5176.ledger_command.Domain.model</packageName>
+									<packageName>com.thee5176.ledger_query.Domain.model</packageName>
 									<directory>src/main/java</directory>
 								</target>
 							</generator>
@@ -193,9 +174,7 @@
 						</executions>
 					</plugin>
 				</plugins>
-				
 			</build>
 		</profile>
 	</profiles>
-
 </project>
