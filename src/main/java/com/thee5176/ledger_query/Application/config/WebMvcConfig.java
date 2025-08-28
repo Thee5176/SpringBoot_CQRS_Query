@@ -20,7 +20,8 @@ public class WebMvcConfig {
             public void addCorsMappings(CorsRegistry registry) {
 
                 registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:5173", "http://localhost:8183", "http://localhost:8185", "http://" + hostIp + ":80")
+                    .allowedOrigins("*")
+                    .maxAge(3600)
                     .allowedMethods("GET", "POST", "PUT", "DELETE")
                     .allowedHeaders("*");
             }
