@@ -143,7 +143,7 @@
 
 		<profiles>
 		<profile>								<!--Disable auto codegen -->
-			<id>codegen</id>                    <!--command :: ./mvnw -Pcodegen generate-sources-->
+			<id>jooq</id>                    <!--command :: ./mvnw -Pcodegen generate-sources-->
 			<build>
 				<plugins>
 					<plugin>
