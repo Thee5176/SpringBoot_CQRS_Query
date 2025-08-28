@@ -8,7 +8,7 @@ public record LedgerBalanceSattlementDTO(
     Integer coa,
     Double balance,
     BalanceType accountBalanceType,
-    BalanceType itemBalanceType
+    BalanceType ledgerItemBalanceType
 ) {
 
 }
