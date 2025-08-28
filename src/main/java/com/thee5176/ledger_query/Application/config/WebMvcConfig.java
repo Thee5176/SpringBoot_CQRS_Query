@@ -21,7 +21,6 @@ public class WebMvcConfig {
 
                 registry.addMapping("/**")
                     .allowedOrigins("*")
-                    .maxAge(3600)
                     .allowedMethods("GET", "POST", "PUT", "DELETE")
                     .allowedHeaders("*");
             }
