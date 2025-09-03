@@ -23,7 +23,7 @@ public class FinancialStatementService extends BaseSettlementService {
         Map<Element, Map<Integer, Double>> elementMap = associatedElements.stream()
             .collect(Collectors.toMap(e -> e, this::settle));
 
-        // populate DTO with per-element settlements (assumes setters exist)
+        // populate DTO with per-element settlements
         return new BalanceSheetDTO(elementMap.get(Element.Assets), elementMap.get(Element.Liabilities), elementMap.get(Element.Equity));
     }
 
@@ -34,7 +34,7 @@ public class FinancialStatementService extends BaseSettlementService {
         Map<Element, Map<Integer, Double>> elementMap = associatedElements.stream()
             .collect(Collectors.toMap(e -> e, this::settle));
 
-        // populate DTO with per-element settlements (assumes setters exist)
+        // populate DTO with per-element settlements
         return new ProfitLossStatementDTO(elementMap.get(Element.Revenue), elementMap.get(Element.Expenses));
     }
 }

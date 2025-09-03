@@ -5,8 +5,7 @@ import java.util.Map;
 public record BalanceSheetDTO (
     Map<Integer, Double> assetsSettlement,
     Map<Integer, Double> liabilitiesSettlement,
-    Map<Integer, Double> equitySettlement,
-    Double recuredProfit
+    Map<Integer, Double> equitySettlement
 ) {
     private Double balanceCheck() {
         double totalAssets = assetsSettlement.values().stream().mapToDouble(Double::doubleValue).sum();
