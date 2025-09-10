@@ -122,9 +122,9 @@
 		</plugins>
 	</build>
 
-		<profiles>
-		<profile>								<!--Disable auto codegen -->
-			<id>jooq</id>                    <!--command :: ./mvnw -Pcodegen generate-sources-->
+	<profiles>
+		<profile>
+			<id>jooq</id>                    <!--command :: ./mvnw -Pjooq generate-sources-->
 			<build>
 				<plugins>
 					<plugin>
@@ -149,7 +149,14 @@
 									<includeSequences>false</includeSequences>
 									<includePackages>false</includePackages>
 									<excludes></excludes>
-									<inputSchema>public</inputSchema>
+									<schemata>
+										<schema>
+											<inputSchema>accounting</inputSchema>
+										</schema>
+										<schema>
+											<inputSchema>credential</inputSchema>
+										</schema>
+									</schemata>
 								</database>
 								<generate>
 									<pojos>true</pojos>
@@ -158,7 +165,7 @@
 									<fluentSetters>true</fluentSetters>
 								</generate>
 								<target>
-									<packageName>com.thee5176.ledger_query.Domain.model</packageName>
+									<packageName>com.thee5176.ledger_query.record.domain.model</packageName>
 									<directory>src/main/java</directory>
 								</target>
 							</generator>
