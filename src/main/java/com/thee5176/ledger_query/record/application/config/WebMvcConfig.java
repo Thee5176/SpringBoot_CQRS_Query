@@ -21,9 +21,11 @@ public class WebMvcConfig {
             public void addCorsMappings(@NotNull CorsRegistry registry) {
 
                 registry.addMapping("/**")
-                    .allowedOrigins("*")
-                    .allowedMethods("GET", "POST", "PUT", "DELETE")
-                    .allowedHeaders("*");
+                    .allowedOriginPatterns("*")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                    .allowedHeaders("*")
+                    .exposedHeaders("Authorization", "Content-Type")
+                    .allowCredentials(true);
             }
         };
     }
