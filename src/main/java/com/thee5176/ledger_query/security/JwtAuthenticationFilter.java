@@ -30,23 +30,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws IOException, ServletException {
         // Skip authentication for auth endpoints (so login/refresh endpoints are not blocked)
         String path = request.getServletPath();
-        if (path != null && path.startsWith("/api/v1/auth/")) {
+        String method = request.getMethod();
+        if ("OPTIONS".equalsIgnoreCase(method) || path != null && path.startsWith("/api/v1/auth/")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String userName;
-
+        
         // (Check 1) Header contains Valid JWT Token in the Authorization Header
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
-
-        jwt = authHeader.substring(7);
-
+        
+        final String jwt = authHeader.substring(7);
+        String userName;
         try {
             userName = jwtService.extractUsername(jwt);
         } catch (Exception e) {

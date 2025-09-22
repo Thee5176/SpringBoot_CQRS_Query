@@ -1,6 +1,5 @@
 package com.thee5176.ledger_query.record.application.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -9,9 +8,6 @@ import jakarta.validation.constraints.NotNull;
 
 @Configuration
 public class WebMvcConfig {
-
-    @Value("${VITE_HOST_IP}")
-    private String hostIp;
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -22,8 +18,8 @@ public class WebMvcConfig {
 
                 registry.addMapping("/**")
                     .allowedOriginPatterns("*")
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                    .allowedHeaders("*")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH")
+                    .allowedHeaders("Authorization","Content-Type","Accept","X-Requested-With")
                     .exposedHeaders("Authorization", "Content-Type")
                     .allowCredentials(true);
             }
