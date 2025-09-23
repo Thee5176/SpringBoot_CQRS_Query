@@ -53,12 +53,13 @@ public class LedgersRepository {
             .fetchOptionalInto(Ledgers.class);
     }
 
-    public List<LedgersQueryOutput> getAllLedgersDTO() {
+    public List<LedgersQueryOutput> getAllLedgers(@NotNull Long userId) {
         try {
             return fetchDtoContext()
                 .from(Tables.LEDGERS)
                 .leftJoin(Tables.LEDGER_ITEMS)
                 .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
+                .and(Tables.LEDGERS.OWNER_ID.eq(userId))
                 .fetchInto(LedgersQueryOutput.class);
         } catch (Exception e) {
             log.error("Error fetching all ledgers DTOs", e);
@@ -66,12 +67,13 @@ public class LedgersRepository {
         }
     }
 
-    public Optional<LedgersQueryOutput> getLedgerDTOById(@NotNull UUID id) {
+    public Optional<LedgersQueryOutput> getLedgerById(@NotNull UUID id, @NotNull Long userId) {
             return fetchDtoContext()
                 .from(Tables.LEDGERS)
                 .leftJoin(Tables.LEDGER_ITEMS)
                 .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
                 .where((Tables.LEDGERS.ID).eq(id))
+                .and(Tables.LEDGERS.OWNER_ID.eq(userId))
                 .fetchOptionalInto(LedgersQueryOutput.class);
     }
 }

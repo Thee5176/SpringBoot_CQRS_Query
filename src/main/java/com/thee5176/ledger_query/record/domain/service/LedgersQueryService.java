@@ -12,6 +12,7 @@ import com.thee5176.ledger_query.record.application.dto.LedgerItemsAggregate;
 import com.thee5176.ledger_query.record.application.dto.LedgersQueryOutput;
 import com.thee5176.ledger_query.record.application.exception.ItemNotFoundException;
 import com.thee5176.ledger_query.record.infrastructure.repository.LedgersRepository;
+import com.thee5176.ledger_query.security.JOOQUsersRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,11 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 public class LedgersQueryService {
     private final ModelMapper modelMapper;
     private final LedgersRepository ledgersRepository;
+    private final JOOQUsersRepository usersRepository;
 
     @Transactional(readOnly = true)
-    public List<GetLedgerResponse> getAllLedgers() throws ItemNotFoundException {
-        List<LedgersQueryOutput> queryOutputs = ledgersRepository.getAllLedgersDTO();
-        log.info("Query Outputs: " + queryOutputs);
+    public List<GetLedgerResponse> getAllLedgers(String username) throws ItemNotFoundException {
+        Long userId = usersRepository.fetchUserByUsername(username).getId();
+        List<LedgersQueryOutput> queryOutputs = ledgersRepository.getAllLedgers(userId);
 
         // get all ledgers from query
         List<GetLedgerResponse> response = queryOutputs.stream()
@@ -48,8 +50,9 @@ public class LedgersQueryService {
     }
 
     @Transactional(readOnly = true)
-    public GetLedgerResponse getLedgerById(UUID id) throws ItemNotFoundException {
-        List<LedgersQueryOutput> queryOutput = ledgersRepository.getLedgerDTOById(id)
+    public GetLedgerResponse getLedgerById(UUID id, String username) throws ItemNotFoundException {
+        Long userId = usersRepository.fetchUserByUsername(username).getId();
+        List<LedgersQueryOutput> queryOutput = ledgersRepository.getLedgerById(id, userId)
             .map(List::of)
             .orElseThrow(() -> new ItemNotFoundException("Ledger not found with id: " + id));
         log.info("Query Outputs: " + queryOutput);
