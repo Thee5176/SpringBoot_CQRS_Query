@@ -58,7 +58,8 @@ public class LedgersRepository {
             return fetchDtoContext()
                 .from(Tables.LEDGERS)
                 .leftJoin(Tables.LEDGER_ITEMS)
-                .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID).and(Tables.LEDGERS.OWNER_ID.eq(userId)))
+                .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
+                .where(Tables.LEDGERS.OWNER_ID.eq(userId))
                 .fetchInto(LedgersQueryOutput.class);
         } catch (Exception e) {
             log.error("Error fetching all ledgers DTOs", e);
