@@ -12,7 +12,7 @@ public class LedgersUIController {
     
     private final CodeOfAccountRepository codeOfAccountRepository;
     
-    @PostMapping("available-coa/json")
+    @PostMapping("/available-coa/json")
     public List<AvailableCodeOfAccountDto> getAvailableCoa() {
         return codeOfAccountRepository.getAvailableCoa();
     }
