@@ -6,9 +6,11 @@ import com.thee5176.ledger_query.auth.RegisterRequest;
 import com.thee5176.ledger_query.record.domain.model.credential.Tables;
 import com.thee5176.ledger_query.record.domain.model.credential.tables.pojos.Users;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @AllArgsConstructor
+@Slf4j
 public class JOOQUsersRepository {
     private final DSLContext dsl;
 
@@ -44,9 +46,19 @@ public class JOOQUsersRepository {
 
 
     public Users fetchUserByUsername(String username) {
-        return dsl.select()
+        log.info("Fetching user by username: {}", username);
+        
+        Users user = dsl.select()
                 .from(Tables.USERS)
                 .where(Tables.USERS.USERNAME.eq(username))
                 .fetchOneInto(Users.class);
+                
+        if (user != null) {
+            log.info("Found user: ID={}, Username={}", user.getId(), user.getUsername());
+        } else {
+            log.warn("No user found with username: {}", username);
+        }
+        
+        return user;
     }
 }
