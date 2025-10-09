@@ -1,4 +1,4 @@
-package com.thee5176.ledger_query.report;
+package com.thee5176.ledger_query.report.application.dto;
 
 import java.util.Map;
 

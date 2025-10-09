@@ -1,10 +1,13 @@
-package com.thee5176.ledger_query.report;
+package com.thee5176.ledger_query.report.domain.service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import com.thee5176.ledger_query.record.domain.model.accounting.enums.Element;
+import com.thee5176.ledger_query.report.application.dto.BalanceSheetDTO;
+import com.thee5176.ledger_query.report.application.dto.ProfitLossStatementDTO;
+import com.thee5176.ledger_query.report.repository.AccountingSettlementRepository;
 
 @Service
 public class FinancialStatementService extends BaseSettlementService {
