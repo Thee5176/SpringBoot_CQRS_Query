@@ -33,7 +33,7 @@ public class LedgerSettlementController {
         return baseSettlementService.settle(Element.lookupLiteral(elementId));
     }
 
-    @GetMapping("/api/balance-sheet")
+    @GetMapping("/api/balance-sheet-statement")
     public BalanceSheetDTO getBalanceSheet() {
         // need Net Income calculation from ProfitLossStatementService
         ProfitLossStatementDTO profitLossStatement = financialStatementService.generateProfitLossStatement();
