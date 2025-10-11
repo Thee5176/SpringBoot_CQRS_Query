@@ -19,11 +19,14 @@ public class FinancialStatementService extends BaseSettlementService {
     public BalanceSheetDTO generateBalanceSheet() {
         List<Element> associatedElements = List.of(Element.Assets, Element.Liabilities, Element.Equity);
 
-        // map each Element to its settlement map
+        // map each Element to its settlement map with the settle method
         Map<Element, Map<Integer, Double>> elementMap = associatedElements.stream()
             .collect(Collectors.toMap(e -> e, this::settle));
 
-        // populate DTO with per-element settlements
+        // TODO: need Retained Earning calculation from ProfitLossStatementService
+        // Net Income = Retained Earning + (Revenues - Expenses)
+
+        // populate DTO with each element settlements
         return new BalanceSheetDTO(elementMap.get(Element.Assets), elementMap.get(Element.Liabilities), elementMap.get(Element.Equity));
     }
 
@@ -34,7 +37,7 @@ public class FinancialStatementService extends BaseSettlementService {
         Map<Element, Map<Integer, Double>> elementMap = associatedElements.stream()
             .collect(Collectors.toMap(e -> e, this::settle));
 
-        // populate DTO with per-element settlements
+        // populate DTO with each element settlements
         return new ProfitLossStatementDTO(elementMap.get(Element.Revenue), elementMap.get(Element.Expenses));
     }
 }

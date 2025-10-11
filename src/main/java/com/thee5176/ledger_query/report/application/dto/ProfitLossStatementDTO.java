@@ -3,14 +3,14 @@ package com.thee5176.ledger_query.report.application.dto;
 import java.util.Map;
 
 public record ProfitLossStatementDTO(
-    Map<Integer, Double> revenueSettlement,
-    Map<Integer, Double> expensesSettlement
+    Map<Integer, Double> revenue,
+    Map<Integer, Double> expenses
 ) {
-    public Double profitLossCheck() {
-        double totalRevenue = revenueSettlement.values()
+    public Double getNetIncome() {
+        double totalRevenue = revenue.values()
             .stream().mapToDouble(Double::doubleValue).sum();
         
-        double totalExpenses = expensesSettlement.values()
+        double totalExpenses = expenses.values()
             .stream().mapToDouble(Double::doubleValue).sum();
         return totalRevenue - totalExpenses;
     }
