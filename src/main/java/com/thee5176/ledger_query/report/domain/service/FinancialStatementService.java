@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import com.thee5176.ledger_query.record.domain.model.accounting.enums.Element;
 import com.thee5176.ledger_query.report.application.dto.BalanceSheetDTO;
-import com.thee5176.ledger_query.report.application.dto.ProfitLossStatementDTO;
+import com.thee5176.ledger_query.report.application.dto.ProfitLossDTO;
 import com.thee5176.ledger_query.report.repository.AccountingSettlementRepository;
 
 @Service
@@ -16,21 +16,26 @@ public class FinancialStatementService extends BaseSettlementService {
             super(accountingSettlementRepository);
     }
 
-    public BalanceSheetDTO generateBalanceSheet() {
+    public BalanceSheetDTO generateBalanceSheetStatement() {
         List<Element> associatedElements = List.of(Element.Assets, Element.Liabilities, Element.Equity);
 
         // map each Element to its settlement map with the settle method
         Map<Element, Map<Integer, Double>> elementMap = associatedElements.stream()
             .collect(Collectors.toMap(e -> e, this::settle));
 
-        // TODO: need Retained Earning calculation from ProfitLossStatementService
-        // Net Income = Retained Earning + (Revenues - Expenses)
+        // Adjust Equity with Net Income from Profit and Loss Statement
+        // COA ID 3110 represents Retained Earnings (Flyway V5)
+        ProfitLossDTO profitLossDTO = this.generateProfitLossStatement();
+        double netIncome = profitLossDTO.getNetIncome();
+        
+        Map<Integer, Double> equityMap = elementMap.get(Element.Equity);
+        equityMap.put(3110, equityMap.getOrDefault(3110, 0.0) + netIncome);
 
         // populate DTO with each element settlements
         return new BalanceSheetDTO(elementMap.get(Element.Assets), elementMap.get(Element.Liabilities), elementMap.get(Element.Equity));
     }
 
-    public ProfitLossStatementDTO generateProfitLossStatement() {
+    public ProfitLossDTO generateProfitLossStatement() {
         List<Element> associatedElements = List.of(Element.Revenue, Element.Expenses);
 
         // map each Element to its settlement map
@@ -38,6 +43,6 @@ public class FinancialStatementService extends BaseSettlementService {
             .collect(Collectors.toMap(e -> e, this::settle));
 
         // populate DTO with each element settlements
-        return new ProfitLossStatementDTO(elementMap.get(Element.Revenue), elementMap.get(Element.Expenses));
+        return new ProfitLossDTO(elementMap.get(Element.Revenue), elementMap.get(Element.Expenses));
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.thee5176.ledger_query.record.domain.model.accounting.enums.Element;
 import com.thee5176.ledger_query.report.application.dto.BalanceSheetDTO;
 import com.thee5176.ledger_query.report.application.dto.BaseSattlementDTO;
-import com.thee5176.ledger_query.report.application.dto.ProfitLossStatementDTO;
+import com.thee5176.ledger_query.report.application.dto.ProfitLossDTO;
 import com.thee5176.ledger_query.report.domain.service.BaseSettlementService;
 import com.thee5176.ledger_query.report.domain.service.FinancialStatementService;
 import com.thee5176.ledger_query.report.repository.AccountingSettlementRepository;
@@ -36,14 +36,14 @@ public class LedgerSettlementController {
     @GetMapping("/api/balance-sheet-statement")
     public BalanceSheetDTO getBalanceSheet() {
         // need Net Income calculation from ProfitLossStatementService
-        ProfitLossStatementDTO profitLossStatement = financialStatementService.generateProfitLossStatement();
+        ProfitLossDTO profitLossStatement = financialStatementService.generateProfitLossStatement();
         Double netIncome = profitLossStatement.getNetIncome();
 
-        return financialStatementService.generateBalanceSheet();
+        return financialStatementService.generateBalanceSheetStatement();
     }
     
     @GetMapping("/api/profit-loss-statement")
-    public ProfitLossStatementDTO getProfitLossStatementDTO() {
+    public ProfitLossDTO getProfitLossDTO() {
         return financialStatementService.generateProfitLossStatement();
     }    
 }

@@ -2,7 +2,7 @@ package com.thee5176.ledger_query.report.application.dto;
 
 import java.util.Map;
 
-public record ProfitLossStatementDTO(
+public record ProfitLossDTO(
     Map<Integer, Double> revenue,
     Map<Integer, Double> expenses
 ) {
