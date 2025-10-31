@@ -23,8 +23,8 @@ public class BalanceQueryService {
         
         rawTransaction.forEach( transaction -> {
             Double finalBalance = (transaction.coaBalanceType().equals(transaction.balanceType()))
-                ? transaction.balance() * -1
-                : transaction.balance();
+                ? transaction.balance()
+                : transaction.balance() * -1;
 
             accountBalances.merge(transaction.coa(), finalBalance, Double::sum);
         });
