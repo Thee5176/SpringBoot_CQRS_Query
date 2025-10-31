@@ -14,7 +14,7 @@ public class BalanceQueryService {
             this.codeOfAccountRepository = codeOfAccountRepository;
         }
 
-        public List<BalanceQueryOutput> getBalancePerAccount(List<String> listOfCoa) {
+        public List<BalanceQueryOutput> getBalancePerAccount(List<Integer> listOfCoa) {
 
         // TODO: The logic here is similar to BaseSettlementService.settle()!!
         List<BalanceQueryDTO> rawTransaction = codeOfAccountRepository.getBalancePerAccount(listOfCoa);

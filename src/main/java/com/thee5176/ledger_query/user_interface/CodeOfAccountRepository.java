@@ -23,7 +23,7 @@ public class CodeOfAccountRepository {
             .fetchInto(AvailableCodeOfAccountDto.class);
     }
 
-    public List<BalanceQueryDTO> getBalancePerAccount(List<String> listOfCoa) {
+    public List<BalanceQueryDTO> getBalancePerAccount(List<Integer> listOfCoa) {
         return dslContext.select(
             Tables.CODE_OF_ACCOUNT.CODE.as("coa"),
             Tables.CODE_OF_ACCOUNT.TYPE.as("coaBalanceType"),

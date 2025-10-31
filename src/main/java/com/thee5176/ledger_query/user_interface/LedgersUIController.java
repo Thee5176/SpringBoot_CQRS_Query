@@ -20,7 +20,7 @@ public class LedgersUIController {
     }
 
     @PostMapping("/balance/json")
-    public List<BalanceQueryOutput> getBalancePerAccount(@RequestBody List<String> listOfCoa) {
+    public List<BalanceQueryOutput> getBalancePerAccount(@RequestBody List<Integer> listOfCoa) {
         return balanceQueryService.getBalancePerAccount(listOfCoa);
     }
 }

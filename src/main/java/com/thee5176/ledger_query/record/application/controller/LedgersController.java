@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.thee5176.ledger_query.record.application.dto.GetLedgerResponse;
+import com.thee5176.ledger_query.record.domain.model.accounting.tables.pojos.Ledgers;
 import com.thee5176.ledger_query.record.domain.service.LedgersQueryService;
 import com.thee5176.ledger_query.record.infrastructure.repository.LedgersRepository;
-import com.thee5176.ledger_query.record.domain.model.accounting.tables.pojos.Ledgers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +29,7 @@ public class LedgersController {
     }
 
     @GetMapping("/api/ledgers")
-    public GetLedgerResponse getLedger(@RequestParam(name = "uuid") UUID uuid, @AuthenticationPrincipal UserDetails userDetails) {
+    public GetLedgerResponse getLedger(@AuthenticationPrincipal UserDetails userDetails, @RequestParam(name = "uuid") UUID uuid) {
         return ledgersQueryService.getLedgerById(uuid, userDetails.getUsername());
     }
 
