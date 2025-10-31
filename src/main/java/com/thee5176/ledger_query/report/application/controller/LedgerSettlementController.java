@@ -35,10 +35,6 @@ public class LedgerSettlementController {
 
     @GetMapping("/api/balance-sheet-statement")
     public BalanceSheetDTO getBalanceSheet() {
-        // need Net Income calculation from ProfitLossStatementService
-        ProfitLossDTO profitLossStatement = financialStatementService.generateProfitLossStatement();
-        Double netIncome = profitLossStatement.getNetIncome();
-
         return financialStatementService.generateBalanceSheetStatement();
     }
     
