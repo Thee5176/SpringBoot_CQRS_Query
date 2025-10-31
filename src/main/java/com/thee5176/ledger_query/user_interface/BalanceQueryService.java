@@ -14,9 +14,9 @@ public class BalanceQueryService {
             this.codeOfAccountRepository = codeOfAccountRepository;
         }
 
-        public List<BalanceQueryDTO> getBalancePerAccount(List<String> listOfCoa) {
+        public List<BalanceQueryOutput> getBalancePerAccount(List<String> listOfCoa) {
 
-        // TODO: Handle non-matching balance types
+        // TODO: The logic here is similar to BaseSettlementService.settle()!!
         List<BalanceQueryDTO> rawTransaction = codeOfAccountRepository.getBalancePerAccount(listOfCoa);
 
         Map<String, Double> accountBalances = new HashMap<>();
@@ -30,7 +30,7 @@ public class BalanceQueryService {
         });
 
         return accountBalances.entrySet().stream()
-            .map(entry -> new BalanceQueryDTO(entry.getKey(), "", "", entry.getValue()))
+            .map(entry -> new BalanceQueryOutput(entry.getKey(), entry.getValue()))
             .toList();
     }
 }
