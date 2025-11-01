@@ -17,7 +17,14 @@ public class BalanceQueryService {
         public List<BalanceQueryOutput> getBalancePerAccount(List<Integer> listOfCoa) {
 
             // TODO: The logic here is similar to BaseSettlementService.settle()!!
+            if (listOfCoa == null || listOfCoa.isEmpty()) {
+                return java.util.Collections.emptyList();
+            }
+
             List<BalanceQueryDTO> rawTransaction = codeOfAccountRepository.getBalancePerAccount(listOfCoa);
+            if (rawTransaction == null) {
+                rawTransaction = java.util.Collections.emptyList();
+            }
 
             Map<Integer, Double> accountBalances = listOfCoa.stream()
                 .collect(
@@ -27,11 +34,22 @@ public class BalanceQueryService {
                 );
             
             rawTransaction.forEach( transaction -> {
-                Double finalBalance = (transaction.coaBalanceType().equals(transaction.balanceType()))
-                    ? transaction.balance()
-                    : transaction.balance() * -1;
+                if (transaction == null) {
+                    return;
+                }
 
-                accountBalances.merge(transaction.coa(), finalBalance, Double::sum);
+                Integer coaKey = transaction.coa();
+                if (coaKey == null || !accountBalances.containsKey(coaKey)) {
+                    return;
+                }
+
+                Double balanceValue = transaction.balance();
+                double balance = (balanceValue != null) ? balanceValue : 0.0;
+
+                boolean sameType = java.util.Objects.equals(transaction.coaBalanceType(), transaction.balanceType());
+                double finalBalance = sameType ? balance : -balance;
+
+                accountBalances.merge(coaKey, finalBalance, Double::sum);
             });
 
             return accountBalances.entrySet().stream()
