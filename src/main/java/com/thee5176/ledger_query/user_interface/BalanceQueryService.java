@@ -16,21 +16,26 @@ public class BalanceQueryService {
 
         public List<BalanceQueryOutput> getBalancePerAccount(List<Integer> listOfCoa) {
 
-        // TODO: The logic here is similar to BaseSettlementService.settle()!!
-        List<BalanceQueryDTO> rawTransaction = codeOfAccountRepository.getBalancePerAccount(listOfCoa);
+            // TODO: The logic here is similar to BaseSettlementService.settle()!!
+            List<BalanceQueryDTO> rawTransaction = codeOfAccountRepository.getBalancePerAccount(listOfCoa);
 
-        Map<String, Double> accountBalances = new HashMap<>();
-        
-        rawTransaction.forEach( transaction -> {
-            Double finalBalance = (transaction.coaBalanceType().equals(transaction.balanceType()))
-                ? transaction.balance()
-                : transaction.balance() * -1;
+            Map<Integer, Double> accountBalances = listOfCoa.stream()
+                .collect(
+                    HashMap::new,
+                    (map, coa) -> map.put(coa, 0.0),
+                    HashMap::putAll
+                );
+            
+            rawTransaction.forEach( transaction -> {
+                Double finalBalance = (transaction.coaBalanceType().equals(transaction.balanceType()))
+                    ? transaction.balance()
+                    : transaction.balance() * -1;
 
-            accountBalances.merge(transaction.coa(), finalBalance, Double::sum);
-        });
+                accountBalances.merge(transaction.coa(), finalBalance, Double::sum);
+            });
 
-        return accountBalances.entrySet().stream()
-            .map(entry -> new BalanceQueryOutput(entry.getKey(), entry.getValue()))
-            .toList();
+            return accountBalances.entrySet().stream()
+                .map(entry -> new BalanceQueryOutput(entry.getKey(), entry.getValue()))
+                .toList();
     }
 }
