@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.thee5176.ledger_query.record.domain.model.accounting.enums.Element;
 import com.thee5176.ledger_query.report.application.dto.BaseSattlementDTO;
 import com.thee5176.ledger_query.report.repository.AccountingSettlementRepository;
+import com.thee5176.ledger_query.security.JOOQUsersRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 
@@ -14,9 +15,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class BaseSettlementService {
     private final AccountingSettlementRepository accountingSettlementRepository;
+    private final JOOQUsersRepository usersRepository;
 
-    public Map<Integer, Double> settle(@NotNull Element elementId) {
-        List<BaseSattlementDTO> elementItem = accountingSettlementRepository.findByElementId(elementId);
+
+    public Map<Integer, Double> settle(@NotNull String username, @NotNull Element elementId) {
+        Long userID = usersRepository.fetchUserByUsername(username).getId();
+        List<BaseSattlementDTO> elementItem = accountingSettlementRepository.findByElementId(elementId, userID);
 
         // Group LedgerItems by COA
         Map<Integer, List<BaseSattlementDTO>> assetItemByCoaMap = elementItem.stream()

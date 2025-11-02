@@ -8,24 +8,29 @@ import com.thee5176.ledger_query.record.domain.model.accounting.enums.Element;
 import com.thee5176.ledger_query.report.application.dto.BalanceSheetDTO;
 import com.thee5176.ledger_query.report.application.dto.ProfitLossDTO;
 import com.thee5176.ledger_query.report.repository.AccountingSettlementRepository;
+import com.thee5176.ledger_query.security.JOOQUsersRepository;
+import jakarta.validation.constraints.NotNull;
 
 @Service
 public class FinancialStatementService extends BaseSettlementService {
+
     public FinancialStatementService(
-        AccountingSettlementRepository accountingSettlementRepository) {
-            super(accountingSettlementRepository);
+        AccountingSettlementRepository accountingSettlementRepository,
+        JOOQUsersRepository usersRepository
+    ) {
+        super(accountingSettlementRepository, usersRepository);
     }
 
-    public BalanceSheetDTO generateBalanceSheetStatement() {
+    public BalanceSheetDTO generateBalanceSheetStatement(@NotNull String username) {
         List<Element> associatedElements = List.of(Element.Assets, Element.Liabilities, Element.Equity);
 
         // map each Element to its settlement map with the settle method
         Map<Element, Map<Integer, Double>> elementMap = associatedElements.stream()
-            .collect(Collectors.toMap(e -> e, this::settle));
+            .collect(Collectors.toMap(e -> e, e -> this.settle(username, e)));
 
         // Adjust Equity with Net Income from Profit and Loss Statement
         // COA ID 3110 represents Retained Earnings (Flyway V5)
-        ProfitLossDTO profitLossDTO = this.generateProfitLossStatement();
+        ProfitLossDTO profitLossDTO = this.generateProfitLossStatement(username);
         double netIncome = profitLossDTO.getNetIncome();
         
         Map<Integer, Double> equityMap = elementMap.get(Element.Equity);
@@ -35,12 +40,12 @@ public class FinancialStatementService extends BaseSettlementService {
         return new BalanceSheetDTO(elementMap.get(Element.Assets), elementMap.get(Element.Liabilities), elementMap.get(Element.Equity));
     }
 
-    public ProfitLossDTO generateProfitLossStatement() {
+    public ProfitLossDTO generateProfitLossStatement(@NotNull String username) {
         List<Element> associatedElements = List.of(Element.Revenue, Element.Expenses);
 
         // map each Element to its settlement map
         Map<Element, Map<Integer, Double>> elementMap = associatedElements.stream()
-            .collect(Collectors.toMap(e -> e, this::settle));
+            .collect(Collectors.toMap(e -> e, e -> this.settle(username, e)));
 
         // populate DTO with each element settlements
         return new ProfitLossDTO(elementMap.get(Element.Revenue), elementMap.get(Element.Expenses));

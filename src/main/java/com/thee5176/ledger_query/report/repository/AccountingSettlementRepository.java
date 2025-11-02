@@ -16,7 +16,7 @@ public class AccountingSettlementRepository {
     private final DSLContext dslContext;
     
     // Implementation to fetch BaseSattlementDTO by searchElement
-    public List<BaseSattlementDTO> findByElementId(Element searchElement) {
+    public List<BaseSattlementDTO> findByElementId(Element searchElement, Long userId) {
         return dslContext
             .select(
                 Tables.LEDGERS.DATE.as("date"),
@@ -34,7 +34,10 @@ public class AccountingSettlementRepository {
             .on(Tables.LEDGER_ITEMS.COA.eq(Tables.CODE_OF_ACCOUNT.CODE))
         
         // Map the result to BaseSattlementDTO
-            .where(Tables.CODE_OF_ACCOUNT.ELEMENT.eq(Element.lookupLiteral(searchElement.name())))
+            .where(
+                Tables.CODE_OF_ACCOUNT.ELEMENT.eq(Element.lookupLiteral(searchElement.name()))
+                .and(Tables.LEDGERS.OWNER_ID.eq(userId))
+            )
             .fetchInto(BaseSattlementDTO.class);
     }
 }
