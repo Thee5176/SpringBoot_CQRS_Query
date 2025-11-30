@@ -16,7 +16,7 @@ public class AccountingSettlementRepository {
     private final DSLContext dslContext;
     
     // Implementation to fetch BaseSattlementDTO by searchElement
-    public List<BaseSattlementDTO> findByElementId(Element searchElement, Long userId) {
+    public List<BaseSattlementDTO> findByElementId(Element searchElement, String userId) {
         return dslContext
             .select(
                 Tables.LEDGERS.DATE.as("date"),

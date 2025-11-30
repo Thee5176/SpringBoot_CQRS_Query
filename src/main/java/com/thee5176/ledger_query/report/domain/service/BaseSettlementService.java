@@ -6,23 +6,18 @@ import java.util.stream.Collectors;
 import com.thee5176.ledger_query.record.domain.model.accounting.enums.Element;
 import com.thee5176.ledger_query.report.application.dto.BaseSattlementDTO;
 import com.thee5176.ledger_query.report.repository.AccountingSettlementRepository;
-import com.thee5176.ledger_query.security.JOOQUsersRepository;
 import jakarta.validation.constraints.NotNull;
 
 public abstract class BaseSettlementService {
     protected final AccountingSettlementRepository accountingSettlementRepository;
-    protected final JOOQUsersRepository usersRepository;
 
     protected BaseSettlementService(
-        AccountingSettlementRepository accountingSettlementRepository,
-        JOOQUsersRepository usersRepository
+        AccountingSettlementRepository accountingSettlementRepository
     ) {
         this.accountingSettlementRepository = accountingSettlementRepository;
-        this.usersRepository = usersRepository;
     }
 
-    public Map<Integer, Double> settle(@NotNull String username, @NotNull Element elementId) {
-        Long userID = usersRepository.fetchUserByUsername(username).getId();
+    public Map<Integer, Double> settle(@NotNull String userID, @NotNull Element elementId) {
         List<BaseSattlementDTO> elementItem = accountingSettlementRepository.findByElementId(elementId, userID);
 
         // Group LedgerItems by COA

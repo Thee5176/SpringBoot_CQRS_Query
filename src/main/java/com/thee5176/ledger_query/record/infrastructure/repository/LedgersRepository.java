@@ -53,7 +53,7 @@ public class LedgersRepository {
             .fetchOptionalInto(Ledgers.class);
     }
 
-    public List<LedgersQueryOutput> getAllLedgers(@NotNull Long userId) {
+    public List<LedgersQueryOutput> getAllLedgers(@NotNull String userId) {
         try {
             log.info("Fetching ledgers for user ID: {}", userId);
             
@@ -80,7 +80,7 @@ public class LedgersRepository {
         }
     }
 
-    public Optional<LedgersQueryOutput> getLedgerById(@NotNull UUID id, @NotNull Long userId) {
+    public Optional<LedgersQueryOutput> getLedgerById(@NotNull UUID id, @NotNull String userId) {
             return fetchDtoContext()
                 .from(Tables.LEDGERS)
                 .leftJoin(Tables.LEDGER_ITEMS)

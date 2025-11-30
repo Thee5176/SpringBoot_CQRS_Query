@@ -8,17 +8,15 @@ import com.thee5176.ledger_query.record.domain.model.accounting.enums.Element;
 import com.thee5176.ledger_query.report.application.dto.BalanceSheetDTO;
 import com.thee5176.ledger_query.report.application.dto.ProfitLossDTO;
 import com.thee5176.ledger_query.report.repository.AccountingSettlementRepository;
-import com.thee5176.ledger_query.security.JOOQUsersRepository;
 import jakarta.validation.constraints.NotNull;
 
 @Service
 public class FinancialStatementService extends BaseSettlementService {
 
     public FinancialStatementService(
-        AccountingSettlementRepository accountingSettlementRepository,
-        JOOQUsersRepository usersRepository
+        AccountingSettlementRepository accountingSettlementRepository
     ) {
-        super(accountingSettlementRepository, usersRepository);
+        super(accountingSettlementRepository);
     }
 
     public BalanceSheetDTO generateBalanceSheetStatement(@NotNull String username) {
