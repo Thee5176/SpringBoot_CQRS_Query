@@ -52,7 +52,7 @@ public class WebSecurityConfig {
 			.csrf((csrf -> csrf.disable()))
 			.authorizeHttpRequests(auth -> 
 				auth
-				.requestMatchers("/api/v1/auth/login","/api/v1/auth/register", "/error").permitAll()
+				.requestMatchers("/api/v1/auth/login","/api/v1/auth/register", "/error", "/health").permitAll()
 				.requestMatchers(HttpMethod.OPTIONS).permitAll()
 				.anyRequest().authenticated()
 				)
