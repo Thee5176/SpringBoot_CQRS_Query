@@ -33,7 +33,7 @@ public class WebSecurityConfig {
     
         http.oauth2Login(withDefaults());
 
-        http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
+        http.oauth2ResourceServer(oauth2 -> oauth2
             .jwt(withDefaults()));
 
         return http.build();
