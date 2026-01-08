@@ -1,6 +1,6 @@
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jre-alpine
 VOLUME /tmp
 EXPOSE 8081
 ARG JAR_FILE=target/*-exec.jar
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=dev","-jar","/app.jar"]

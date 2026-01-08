@@ -22,4 +22,21 @@ public class CodeOfAccountRepository {
             .where(Tables.CODE_OF_ACCOUNT.LEVEL.eq(1))
             .fetchInto(AvailableCodeOfAccountDto.class);
     }
+
+    public List<BalanceQueryDTO> getBalancePerAccount(List<Integer> listOfCoa) {
+        return dslContext.select(
+            Tables.CODE_OF_ACCOUNT.CODE.as("coa"),
+            Tables.CODE_OF_ACCOUNT.TYPE.as("coaBalanceType"),
+            Tables.LEDGER_ITEMS.TYPE.as("balanceType"),
+            Tables.LEDGER_ITEMS.AMOUNT.cast(Double.class).as("balance")
+        )
+        .from(Tables.CODE_OF_ACCOUNT)
+        .leftJoin(Tables.LEDGER_ITEMS)
+        .on(Tables.CODE_OF_ACCOUNT.CODE.eq(Tables.LEDGER_ITEMS.COA))
+        .where(
+            Tables.CODE_OF_ACCOUNT.LEVEL.eq(1)
+            .and(Tables.CODE_OF_ACCOUNT.CODE.in(listOfCoa))
+        )
+        .fetchInto(BalanceQueryDTO.class);
+    }
 }

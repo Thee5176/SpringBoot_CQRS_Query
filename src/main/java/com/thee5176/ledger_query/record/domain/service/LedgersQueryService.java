@@ -12,7 +12,6 @@ import com.thee5176.ledger_query.record.application.dto.LedgerItemsAggregate;
 import com.thee5176.ledger_query.record.application.dto.LedgersQueryOutput;
 import com.thee5176.ledger_query.record.application.exception.ItemNotFoundException;
 import com.thee5176.ledger_query.record.infrastructure.repository.LedgersRepository;
-import com.thee5176.ledger_query.security.JOOQUsersRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,12 +21,20 @@ import lombok.extern.slf4j.Slf4j;
 public class LedgersQueryService {
     private final ModelMapper modelMapper;
     private final LedgersRepository ledgersRepository;
-    private final JOOQUsersRepository usersRepository;
 
     @Transactional(readOnly = true)
-    public List<GetLedgerResponse> getAllLedgers(String username) throws ItemNotFoundException {
-        Long userId = usersRepository.fetchUserByUsername(username).getId();
+    public List<GetLedgerResponse> getAllLedgers(String userId) throws ItemNotFoundException {
+        log.info("Fetching ledgers for userId: {}", userId);
+        
+        if (userId == null) {
+            log.error("User not found with userId: {}", userId);
+            throw new ItemNotFoundException("User not found with userId: " + userId);
+        }
+        
+        log.info("Found user with ID: {} for userId: {}", userId, userId);
+        
         List<LedgersQueryOutput> queryOutputs = ledgersRepository.getAllLedgers(userId);
+        log.info("Found {} ledger records for user ID: {}", queryOutputs.size(), userId);
 
         // get all ledgers from query
         List<GetLedgerResponse> response = queryOutputs.stream()
@@ -50,8 +57,10 @@ public class LedgersQueryService {
     }
 
     @Transactional(readOnly = true)
-    public GetLedgerResponse getLedgerById(UUID id, String username) throws ItemNotFoundException {
-        Long userId = usersRepository.fetchUserByUsername(username).getId();
+    public GetLedgerResponse getLedgerById(UUID id, String userId) throws ItemNotFoundException {
+        log.info("Fetching ledger with ID: {} for userId: {}", id, userId);
+        
+        log.info("Found user with ID: {} for userId: {}", userId, userId);
         List<LedgersQueryOutput> queryOutput = ledgersRepository.getLedgerById(id, userId)
             .map(List::of)
             .orElseThrow(() -> new ItemNotFoundException("Ledger not found with id: " + id));

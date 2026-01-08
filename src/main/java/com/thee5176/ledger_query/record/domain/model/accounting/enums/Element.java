@@ -4,10 +4,11 @@
 package com.thee5176.ledger_query.record.domain.model.accounting.enums;
 
 
+import com.thee5176.ledger_query.record.domain.model.accounting.Accounting;
+
 import org.jooq.Catalog;
 import org.jooq.EnumType;
 import org.jooq.Schema;
-import com.thee5176.ledger_query.record.domain.model.accounting.Accounting;
 
 
 /**
