@@ -1,0 +1,26 @@
+spring:
+  main:
+    banner-mode: off
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        security: DEBUG
+    com:
+      thee5176:
+        ledger_query:
+          record:
+            application:
+              controller:
+                LedgersController: DEBUG
+            domain:
+              service:
+                LedgersQueryService: DEBUG
+            infrastructure:
+              repository:
+                LedgerItemsRepository: ERROR
+                LedgersRepository: ERROR
+  file:
+    name: logs/dev-logs.json

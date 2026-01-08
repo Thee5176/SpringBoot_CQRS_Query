@@ -53,21 +53,34 @@ public class LedgersRepository {
             .fetchOptionalInto(Ledgers.class);
     }
 
-    public List<LedgersQueryOutput> getAllLedgers(@NotNull Long userId) {
+    public List<LedgersQueryOutput> getAllLedgers(@NotNull String userId) {
         try {
-            return fetchDtoContext()
+            log.info("Fetching ledgers for user ID: {}", userId);
+            
+            List<LedgersQueryOutput> results = fetchDtoContext()
                 .from(Tables.LEDGERS)
                 .leftJoin(Tables.LEDGER_ITEMS)
                 .on(Tables.LEDGERS.ID.eq(Tables.LEDGER_ITEMS.LEDGER_ID))
                 .where(Tables.LEDGERS.OWNER_ID.eq(userId))
                 .fetchInto(LedgersQueryOutput.class);
+                
+            log.info("Found {} ledger query outputs for user ID: {}", results.size(), userId);
+            
+            // Log some sample data for debugging
+            if (!results.isEmpty()) {
+                LedgersQueryOutput first = results.get(0);
+                log.info("Sample ledger: ID={}, Description={}, Date={}", 
+                    first.getLedgerId(), first.getDescription(), first.getDate());
+            }
+            
+            return results;
         } catch (Exception e) {
-            log.error("Error fetching all ledgers DTOs", e);
-            throw new ItemNotFoundException("Error fetching all ledgers DTOs");
+            log.error("Error fetching all ledgers DTOs for user ID: {}", userId, e);
+            throw new ItemNotFoundException("Error fetching all ledgers DTOs for user: " + userId);
         }
     }
 
-    public Optional<LedgersQueryOutput> getLedgerById(@NotNull UUID id, @NotNull Long userId) {
+    public Optional<LedgersQueryOutput> getLedgerById(@NotNull UUID id, @NotNull String userId) {
             return fetchDtoContext()
                 .from(Tables.LEDGERS)
                 .leftJoin(Tables.LEDGER_ITEMS)
