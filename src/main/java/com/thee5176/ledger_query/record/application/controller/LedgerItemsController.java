@@ -15,12 +15,6 @@ public class LedgerItemsController {
 
     private final LedgerItemsRepository ledgerItemsRepository;
 
-    @GetMapping("/api/ledger-items/all")
-    public LedgerItems testRepository() {
-        return ledgerItemsRepository.getAllLedgerItems()
-            .orElseThrow(() -> new ItemNotFoundException("No ledger items found"));
-    }
-
     @GetMapping("/api/ledger-items")
     public LedgerItems getLedgerItems(@RequestParam(name = "uuid") UUID uuid) {
         return ledgerItemsRepository.getLedgerItemsById(uuid)
