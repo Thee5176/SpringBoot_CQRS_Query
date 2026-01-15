@@ -8,6 +8,7 @@ logging:
     org:
       springframework:
         security: DEBUG
+        web: DEBUG
     com:
       thee5176:
         ledger_query:
@@ -22,5 +23,6 @@ logging:
               repository:
                 LedgerItemsRepository: ERROR
                 LedgersRepository: ERROR
+          user_interface: DEBUG
   file:
     name: logs/dev-logs.json
