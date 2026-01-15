@@ -1,7 +1,7 @@
 package com.thee5176.ledger_query.report.application.validation;
 
 import java.util.List;
-import com.thee5176.ledger_query.record.domain.model.accounting.enums.BalanceType;
+import com.thee5176.ledger_query.record.domain.model.enums.BalanceType;
 import com.thee5176.ledger_query.report.application.dto.LedgerItemsDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

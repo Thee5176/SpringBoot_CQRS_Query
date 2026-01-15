@@ -1,6 +1,6 @@
 package com.thee5176.ledger_query.report.application.dto;
 
-import com.thee5176.ledger_query.record.domain.model.accounting.enums.BalanceType;
+import com.thee5176.ledger_query.record.domain.model.enums.BalanceType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

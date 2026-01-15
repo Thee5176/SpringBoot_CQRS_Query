@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.thee5176.ledger_query.record.application.dto.GetLedgerResponse;
-import com.thee5176.ledger_query.record.domain.model.accounting.tables.pojos.Ledgers;
+import com.thee5176.ledger_query.record.domain.model.tables.pojos.Ledgers;
 import com.thee5176.ledger_query.record.domain.service.LedgersQueryService;
 import com.thee5176.ledger_query.record.infrastructure.repository.LedgersRepository;
 import lombok.AllArgsConstructor;
