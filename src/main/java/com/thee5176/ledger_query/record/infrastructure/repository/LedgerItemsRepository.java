@@ -4,8 +4,8 @@ import java.util.Optional;
 import java.util.UUID;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
-import com.thee5176.ledger_query.record.domain.model.accounting.Tables;
-import com.thee5176.ledger_query.record.domain.model.accounting.tables.pojos.LedgerItems;
+import com.thee5176.ledger_query.record.domain.model.Tables;
+import com.thee5176.ledger_query.record.domain.model.tables.pojos.LedgerItems;
 import lombok.AllArgsConstructor;
 
 @Repository

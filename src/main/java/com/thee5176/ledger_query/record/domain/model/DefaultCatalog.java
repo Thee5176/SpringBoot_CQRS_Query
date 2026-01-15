@@ -4,8 +4,6 @@
 package com.thee5176.ledger_query.record.domain.model;
 
 
-import com.thee5176.ledger_query.record.domain.model.accounting.Accounting;
-
 import java.util.Arrays;
 import java.util.List;
 

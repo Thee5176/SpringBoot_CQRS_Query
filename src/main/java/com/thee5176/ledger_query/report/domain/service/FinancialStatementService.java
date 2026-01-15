@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import com.thee5176.ledger_query.record.domain.model.accounting.enums.Element;
+import com.thee5176.ledger_query.record.domain.model.enums.Element;
 import com.thee5176.ledger_query.report.application.dto.BalanceSheetDTO;
 import com.thee5176.ledger_query.report.application.dto.ProfitLossDTO;
 import com.thee5176.ledger_query.report.repository.AccountingSettlementRepository;

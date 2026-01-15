@@ -3,7 +3,7 @@ package com.thee5176.ledger_query.report.domain.service;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import com.thee5176.ledger_query.record.domain.model.accounting.enums.Element;
+import com.thee5176.ledger_query.record.domain.model.enums.Element;
 import com.thee5176.ledger_query.report.application.dto.BaseSattlementDTO;
 import com.thee5176.ledger_query.report.repository.AccountingSettlementRepository;
 import jakarta.validation.constraints.NotNull;

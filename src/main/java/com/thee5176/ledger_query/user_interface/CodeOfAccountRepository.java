@@ -3,7 +3,7 @@ package com.thee5176.ledger_query.user_interface;
 import java.util.List;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
-import com.thee5176.ledger_query.record.domain.model.accounting.Tables;
+import com.thee5176.ledger_query.record.domain.model.Tables;
 import lombok.AllArgsConstructor;
 
 @Repository
