@@ -23,7 +23,7 @@ public class CodeOfAccountRepository {
             .fetchInto(AvailableCodeOfAccountDto.class);
     }
 
-    public List<BalanceQueryDTO> getBalancePerAccount(List<Integer> listOfCoa) {
+    public List<BalanceQueryDTO> getBalancePerAccount(String userId, List<Integer> listOfCoa) {
         return dslContext.select(
             Tables.CODE_OF_ACCOUNT.CODE.as("coa"),
             Tables.CODE_OF_ACCOUNT.TYPE.as("coaBalanceType"),
@@ -33,8 +33,11 @@ public class CodeOfAccountRepository {
         .from(Tables.CODE_OF_ACCOUNT)
         .leftJoin(Tables.LEDGER_ITEMS)
         .on(Tables.CODE_OF_ACCOUNT.CODE.eq(Tables.LEDGER_ITEMS.COA))
+        .leftJoin(Tables.LEDGERS)
+        .on(Tables.LEDGER_ITEMS.LEDGER_ID.eq(Tables.LEDGERS.ID))
         .where(
-            Tables.CODE_OF_ACCOUNT.LEVEL.eq(1)
+            Tables.LEDGERS.OWNER_ID.eq(userId)
+            .and(Tables.CODE_OF_ACCOUNT.LEVEL.eq(1))
             .and(Tables.CODE_OF_ACCOUNT.CODE.in(listOfCoa))
         )
         .fetchInto(BalanceQueryDTO.class);

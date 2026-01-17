@@ -1,6 +1,8 @@
 package com.thee5176.ledger_query.user_interface;
 
 import java.util.List;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,10 +32,12 @@ public class LedgersUIController {
     }
 
     @PostMapping("/balance/json")
-    public List<BalanceQueryOutput> getBalancePerAccount(@RequestBody List<Integer> listOfCoa) {
+    public List<BalanceQueryOutput> getBalancePerAccount(@AuthenticationPrincipal Jwt jwt, @RequestBody List<Integer> listOfCoa) {
+        String userId = jwt.getSubject();
+        
         log.info("ENTERING getBalancePerAccount endpoint with {} COA codes", listOfCoa.size());
         try {
-            List<BalanceQueryOutput> result = balanceQueryService.getBalancePerAccount(listOfCoa);
+            List<BalanceQueryOutput> result = balanceQueryService.getBalancePerAccount(userId, listOfCoa);
             log.info("Successfully retrieved balance for {} accounts", result.size());
             return result;
         } catch (Exception e) {

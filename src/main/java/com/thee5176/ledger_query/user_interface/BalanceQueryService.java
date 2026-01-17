@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BalanceQueryService {
@@ -14,14 +15,15 @@ public class BalanceQueryService {
             this.codeOfAccountRepository = codeOfAccountRepository;
         }
 
-        public List<BalanceQueryOutput> getBalancePerAccount(List<Integer> listOfCoa) {
+        @Transactional(readOnly = true)
+        public List<BalanceQueryOutput> getBalancePerAccount(String userId,List<Integer> listOfCoa) {
 
             // TODO: The logic here is similar to BaseSettlementService.settle()!!
             if (listOfCoa == null || listOfCoa.isEmpty()) {
                 return java.util.Collections.emptyList();
             }
 
-            List<BalanceQueryDTO> rawTransaction = codeOfAccountRepository.getBalancePerAccount(listOfCoa);
+            List<BalanceQueryDTO> rawTransaction = codeOfAccountRepository.getBalancePerAccount(userId, listOfCoa);
             if (rawTransaction == null) {
                 rawTransaction = java.util.Collections.emptyList();
             }
