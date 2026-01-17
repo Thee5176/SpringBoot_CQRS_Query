@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.thee5176.ledger_query.record.application.dto.GetLedgerResponse;
-import com.thee5176.ledger_query.record.domain.model.tables.pojos.Ledgers;
 import com.thee5176.ledger_query.record.domain.service.LedgersQueryService;
-import com.thee5176.ledger_query.record.infrastructure.repository.LedgersRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 public class LedgersController {
 
     private final LedgersQueryService ledgersQueryService;
-    private final LedgersRepository ledgersRepository;
 
     @GetMapping("/api/ledgers/all")
     public List<GetLedgerResponse> getAllLedgers(@AuthenticationPrincipal Jwt jwt) {
@@ -33,22 +30,5 @@ public class LedgersController {
     public GetLedgerResponse getLedger(@AuthenticationPrincipal Jwt jwt, @RequestParam(name = "uuid") UUID uuid) {
         String userId = jwt.getSubject();
         return ledgersQueryService.getLedgerById(uuid, userId);
-    }
-
-    // Debug endpoint to see all ledgers without filtering (remove in production)
-    @GetMapping("/api/ledgers/debug/all")
-    public List<Ledgers> getAllLedgersDebug(@AuthenticationPrincipal Jwt jwt) {
-        String userId = jwt.getSubject();
-        log.info("DEBUG: Fetching all ledgers without filtering for user: {}", userId);
-        List<Ledgers> allLedgers = ledgersRepository.getAllLedgers();
-        log.info("DEBUG: Found {} total ledgers in database", allLedgers.size());
-        
-        // Log owner IDs for debugging
-        allLedgers.forEach(ledger -> 
-            log.info("DEBUG: Ledger ID={}, Owner ID={}, Description={}", 
-                ledger.getId(), ledger.getOwnerId(), ledger.getDescription())
-        );
-        
-        return allLedgers;
     }
 }
