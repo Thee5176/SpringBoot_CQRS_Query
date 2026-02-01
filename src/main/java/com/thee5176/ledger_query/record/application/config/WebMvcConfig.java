@@ -17,7 +17,7 @@ public class WebMvcConfig {
             public void addCorsMappings(@NonNull CorsRegistry registry) {
 
                 registry.addMapping("/**")
-                        .allowedOriginPatterns("*")
+                        .allowedOriginPatterns("*", "nativeexpopaper://choudai-matketplace.jp.auth0.com")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
                         .allowedHeaders("Authorization", "Content-Type", "Accept", "X-Requested-With")
                         .exposedHeaders("Authorization", "Content-Type")
