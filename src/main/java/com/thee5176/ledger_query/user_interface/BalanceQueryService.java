@@ -19,7 +19,7 @@ public class BalanceQueryService {
     @Transactional(readOnly = true)
     public List<BalanceQueryOutput> getBalancePerAccount(String userId, List<Integer> listOfCoa) {
 
-        // TODO: The logic here is similar to BaseSettlementService.settle()!!
+        // NOTE: The logic here is similar to BaseSettlementService.settle()!!
         // However, due to different DTO structures (BalanceQueryDTO vs
         // BaseSattlementDTO)
         // and query requirements, direct deduplication is currently complex.
