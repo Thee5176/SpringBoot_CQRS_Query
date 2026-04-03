@@ -1,0 +1,76 @@
+<configuration>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} traceId=%X{trace_id:-na} spanId=%X{span_id:-na} errorId=%X{error_id:-na} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- ─── 1. Application log file appender ─────────────────── -->
+  <appender name="APPLICATION_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/application.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>logs/application-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <maxFileSize>10MB</maxFileSize>
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>100MB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d %-5level %logger traceId=%X{trace_id:-na} spanId=%X{span_id:-na} errorId=%X{error_id:-na} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- ─── 2. Security audit log file appender ───────────────── -->
+  <appender name="SECURITY_AUDIT_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/security-audit.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>logs/security-audit-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <maxFileSize>10MB</maxFileSize>
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>100MB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d %-5level %logger traceId=%X{trace_id:-na} spanId=%X{span_id:-na} errorId=%X{error_id:-na} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- ─── 3. OpenTelemetry appender (forwards via OTLP) ─────── -->
+  <appender name="OTEL"
+    class="io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender">
+
+    <!-- Capture thread.name and thread.id as OTel attributes -->
+    <captureExperimentalAttributes>true</captureExperimentalAttributes>
+
+    <!-- Capture class name, method name, and line number -->
+    <captureCodeAttributes>true</captureCodeAttributes>
+
+    <!-- Capture all MDC keys (e.g., trace_id, span_id if set manually) -->
+    <captureMdcAttributes>*</captureMdcAttributes>
+
+    <!-- Capture exception fields as OTel attributes: exception.type, exception.message, exception.stacktrace -->
+    <captureMarkerAttribute>true</captureMarkerAttribute>
+  </appender>
+
+  <!-- ─── Named loggers ─────────────────────────────────────── -->
+
+  <!-- Application flow and errors -->
+  <logger name="app.application" level="INFO" additivity="false">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="APPLICATION_FILE"/>
+    <appender-ref ref="OTEL"/>
+  </logger>
+
+  <!-- Security and authorization audit events -->
+  <logger name="app.security-audit" level="INFO" additivity="false">
+    <appender-ref ref="SECURITY_AUDIT_FILE"/>
+    <appender-ref ref="OTEL"/>
+  </logger>
+
+  <!-- Root: all other logs route to application file -->
+  <root level="INFO">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="APPLICATION_FILE"/>
+    <appender-ref ref="OTEL"/>
+  </root>
+
+</configuration>
